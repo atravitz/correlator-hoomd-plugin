@@ -6,7 +6,7 @@
 
 # First, we need to import the C++ module. It has the same name as this module (example_plugin) but with an underscore
 # in front
-from hoomd.example_plugin import _example_plugin
+from hoomd.autocorrelate import _autocorrelate
 
 # Next, since we are extending an updater, we need to bring in the base class updater and some other parts from
 # hoomd_script
