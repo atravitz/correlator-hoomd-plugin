@@ -18,7 +18,8 @@ class Correlator : public Analyzer
 
     // don't think we need to advance timestep since it's an analyzer
   }
-
+//! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);
 
 // NO ENABLE_CUDA
+#endif
