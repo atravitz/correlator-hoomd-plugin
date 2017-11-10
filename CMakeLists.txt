@@ -1,24 +1,77 @@
-project(example_plugin)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
+enable_testing()
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_MODULE_PATH})
-SET(CMAKE_INSTALL_RPATH "$ORIGIN/..:$ORIGIN")
+macro(add_script_test_cpu_mpi script)
+    # execute on two processors
+    SET(nproc 2)
+    if (ENABLE_MPI)
+        if(NOT "${EXCLUDE_FROM_MPI}" MATCHES ${script})
+            add_test(NAME example_plugin-${script}-mpi-cpu
+                COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${nproc}
+                ${MPIEXEC_POSTFLAGS} ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${script} "--mode=cpu")
+                set_tests_properties(example_plugin-${script}-mpi-cpu PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}:$ENV{PYTHONPATH}")
+            endif()
+    endif(ENABLE_MPI)
+endmacro()
 
-include(FindHOOMD.cmake)
+macro(add_script_test_gpu_mpi script)
+    # execute on two processors
+    SET(nproc 2)
+    if (ENABLE_MPI)
+        if(NOT "${EXCLUDE_FROM_MPI}" MATCHES ${script})
+            add_test(NAME example_plugin-${script}-mpi-gpu
+                COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${nproc}
+                ${MPIEXEC_POSTFLAGS} ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${script} "--mode=gpu" "--gpu_error_checking")
+            set_tests_properties(example_plugin-${script}-mpi-gpu PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}:$ENV{PYTHONPATH}")
+        endif()
+    endif(ENABLE_MPI)
+endmacro()
 
-# plugins must be built as shared libraries
-if (ENABLE_STATIC)
-    message(SEND_ERROR "Plugins cannot be built against a statically compiled hoomd")
-endif (ENABLE_STATIC)
 
-set(BUILD_SHARED_LIBS on)
+macro(add_script_test_cpu script)
+    add_test(example_plugin-${script}-cpu ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${script} "--mode=cpu")
+    set_tests_properties(example_plugin-${script}-cpu PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}:$ENV{PYTHONPATH}")
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX ${HOOMD_ROOT} CACHE PATH "Installation prefix" FORCE)
-endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    add_script_test_cpu_mpi(${script})
+endmacro()
 
-set(PYTHON_MODULE_BASE_DIR ${CMAKE_INSTALL_PREFIX})
-message(STATUS "Install plugin to: " ${PYTHON_MODULE_BASE_DIR})
+macro(add_script_test_gpu script)
+    add_test(example_plugin-${script}-gpu ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${script} "--mode=gpu")
+    set_tests_properties(example_plugin-${script}-gpu PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}:$ENV{PYTHONPATH}")
 
-# add subdirectories
-add_subdirectory(${PROJECT_NAME})
+    add_script_test_gpu_mpi(${script})
+endmacro()
+
+set(TEST_LIST_CPU
+    test_example.py
+    )
+
+set(TEST_LIST_GPU
+    test_example.py
+    )
+
+set(EXCLUDE_FROM_MPI
+   )
+
+set(MPI_ONLY
+    )
+
+foreach (CUR_TEST ${TEST_LIST_CPU})
+    if (TEST_CPU_IN_GPU_BUILDS OR NOT ENABLE_CUDA)
+        add_script_test_cpu(${CUR_TEST})
+    endif()
+endforeach (CUR_TEST)
+
+foreach (CUR_TEST ${MPI_ONLY})
+    if (TEST_CPU_IN_GPU_BUILDS OR NOT ENABLE_CUDA)
+        add_script_test_cpu_mpi(${CUR_TEST})
+    endif()
+endforeach (CUR_TEST)
+
+if (ENABLE_CUDA)
+foreach (CUR_TEST ${TEST_LIST_GPU})
+    add_script_test_gpu(${CUR_TEST})
+endforeach (CUR_TEST)
+foreach (CUR_TEST ${MPI_ONLY})
+    add_script_test_gpu_mpi(${CUR_TEST})
+endforeach (CUR_TEST)
+endif (ENABLE_CUDA)
