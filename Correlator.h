@@ -1,0 +1,24 @@
+// inclusion guard
+#ifndef _CORRELATOR_H_
+#define _CORRELATOR_H_
+
+#include <hoomd/Analyzer.h>
+
+// add pybind??
+
+#ifndef NVCC
+#include <hoomd/extern/pybind/include/pybind11/pybind11.h>
+#endif
+
+class Correlator : public Analyzer
+  {
+  public:
+    //! Constructor
+    Correlator(std::shared_ptr<SystemDefinition>sysdef): //THIS MIGHT BE WRONG
+
+    // don't think we need to advance timestep since it's an analyzer
+  }
+
+void export_Correlator(pybind11::module& m);
+
+// NO ENABLE_CUDA
