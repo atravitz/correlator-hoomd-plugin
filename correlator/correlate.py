@@ -6,9 +6,9 @@
 
 # First, we need to import the C++ module. It has the same name as this module (example_plugin) but with an underscore
 # in front
-from hoomd.autocorrelate import _autocorrelate
+from hoomd.correlate import _correlate
 
-# Next, since we are extending an updater, we need to bring in the base class updater and some other parts from
+# Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from
 # hoomd_script
 import hoomd
 
@@ -16,7 +16,7 @@ import hoomd
 #
 # Every \a period time steps, particle velocities are modified so that they are all zero
 #
-class example(hoomd.update._updater):
+class correlate(hoomd.analyze._analyzer):
     ## Initialize the velocity zeroer
     #
     # \param period Velocities will be zeroed every \a period time steps
@@ -32,12 +32,9 @@ class example(hoomd.update._updater):
         hoomd.util.print_status_line();
 
         # initialize base class
-        hoomd.update._updater.__init__(self);
+        hoomd.analyze._analyzer.__init__(self);
 
         # initialize the reflected c++ class
-        if not hoomd.context.exec_conf.isCUDAEnabled():
-            self.cpp_updater = _example_plugin.ExampleUpdater(hoomd.context.current.system_definition);
-        else:
-            self.cpp_updater = _example_plugin.ExampleUpdaterGPU(hoomd.context.current.system_definition);
+        self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition);
 
-        self.setupUpdater(period);
+        self.setupAnalyzer(period);
