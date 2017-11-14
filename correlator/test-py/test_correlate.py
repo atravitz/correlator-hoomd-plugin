@@ -3,7 +3,7 @@
 
 import hoomd;
 hoomd.context.initialize();
-import hoomd.example_plugin;
+import hoomd.correlate;
 import unittest;
 import os;
 
@@ -12,7 +12,7 @@ class test_simple(unittest.TestCase):
         sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0),
                                            n=[1,2]);
 
-        updater = hoomd.example_plugin.update.example(4);
+        analyzer = hoomd.correlate.analyze.example(4); #TODO if this pointing to a file somewhere?
 
 if __name__ == '__main__':
     unittest.main(argv = ['test_example.py', '-v'])
