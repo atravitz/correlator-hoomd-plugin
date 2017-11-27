@@ -3,8 +3,9 @@
 #define _CORRELATOR_H_
 
 #include <hoomd/Analyzer.h>
+#include <hoomd/Logger.h>
 
-// add pybind??
+
 
 #ifndef NVCC
 #include <hoomd/extern/pybind/include/pybind11/pybind11.h>
@@ -14,10 +15,13 @@ class Correlator : public Analyzer
   {
   public:
     //! Constructor
-    Correlator(std::shared_ptr<Logger>m_logger): 
+    Correlator(std::shared_ptr<Logger> m_logger, std::shared_ptr<SystemDefinition> sysdef);
 
-    // don't think we need to advance timestep since it's an analyzer
-  }
+    virtual void analyze(unsigned int timestep);
+
+  protected:
+    const std::shared_ptr<Logger> m_logger;
+  };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);
 
