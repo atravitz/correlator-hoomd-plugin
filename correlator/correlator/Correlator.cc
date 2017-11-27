@@ -4,8 +4,7 @@
 using namespace std;
 
 
-Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef)
-  : Analyzer(sysdef)
+Correlator::Correlator(std::shared_ptr<Logger> m_logger)
   {
   }
 

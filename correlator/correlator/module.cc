@@ -2,7 +2,7 @@
 // This file is part of the HOOMD-blue project, released under the BSD 3-Clause License.
 
 // Include the defined classes that are to be exported to python
-#include "ExampleUpdater.h"
+#include "Correlator.h"
 
 #include <hoomd/extern/pybind/include/pybind11/pybind11.h>
 
@@ -10,12 +10,8 @@
 // (with an underscore in front)
 PYBIND11_PLUGIN(_example_plugin)
     {
-    pybind11::module m("_example_plugin");
-    export_ExampleUpdater(m);
-
-    #ifdef ENABLE_CUDA
-    export_ExampleUpdaterGPU(m);
-    #endif
+    pybind11::module m("_correlator");
+    export_Correlator(m);
 
     return m.ptr();
     }

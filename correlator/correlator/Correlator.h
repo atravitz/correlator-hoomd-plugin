@@ -14,7 +14,7 @@ class Correlator : public Analyzer
   {
   public:
     //! Constructor
-    Correlator(std::shared_ptr<SystemDefinition>sysdef): //THIS MIGHT BE WRONG
+    Correlator(std::shared_ptr<Logger>m_logger): 
 
     // don't think we need to advance timestep since it's an analyzer
   }

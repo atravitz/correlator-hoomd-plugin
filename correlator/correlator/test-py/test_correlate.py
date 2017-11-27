@@ -1,6 +1,6 @@
 import hoomd;
 hoomd.context.initialize();
-import hoomd.correlate;
+import hoomd.analyze;
 import unittest;
 import os;
 
@@ -10,7 +10,7 @@ class test_simple(unittest.TestCase):
                                            n=[1,2]);
         log = hoomd.analyze.log(filename=None, quantities='potential_energy', period=1)
 
-        correlate = hoomd.correlate.analyze(log)
+        correlate = hoomd.analyze.correlate(log)
 
 
 
