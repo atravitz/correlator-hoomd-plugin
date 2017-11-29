@@ -18,6 +18,8 @@ void Correlator::analyze(unsigned int timestep)
     assert(m_logger);
     Scalar quantity = m_logger -> getQuantity();
 //    ArrayHandle<Scalar> logged_values( m_logger -> getQuantity(), access_location::host, access_mode::read);
+    quantity = m_logger -> getQuantity();
+    
 
   }
 
