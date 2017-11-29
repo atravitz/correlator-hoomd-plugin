@@ -3,7 +3,7 @@
 using namespace std;
 
 
-Correlator::Correlator(std::shared_ptr<Logger> m_logger, std::shared_ptr<SystemDefinition> sysdef)
+Correlator::Correlator(std::shared_ptr<Logger> m_logger)
   : m_sysdef(sysdef)
   : Analyzer(sysdef)
   {
@@ -16,7 +16,8 @@ void Correlator::analyze(unsigned int timestep)
 
     // access the logged data values
     assert(m_logger);
-    ArrayHandle<Scalar> m_logger( m_sysdef -> getQuantity(), access_location::host, access_mode::read);
+    quantity = m_logger -> getQuantity();
+    
 
   }
 
