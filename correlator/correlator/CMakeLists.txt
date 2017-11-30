@@ -1,4 +1,4 @@
-# Maintainer: mspells
+# Maintainer: 
 
 set(COMPONENT_NAME correlator)
 

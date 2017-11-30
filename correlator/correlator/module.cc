@@ -8,7 +8,7 @@
 
 // specify the python module. Note that the name must expliclty match the PROJECT() name provided in CMakeLists
 // (with an underscore in front)
-PYBIND11_PLUGIN(_example_plugin)
+PYBIND11_PLUGIN(_correlator)
     {
     pybind11::module m("_correlator");
     export_Correlator(m);

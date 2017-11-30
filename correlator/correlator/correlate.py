@@ -10,7 +10,7 @@
 # Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from
 # hoomd_script
 import hoomd
-from hoomd.correlator import correlate
+from hoomd.correlator import _correlator
 ##
 #
 class correlator(hoomd.analyze._analyzer):
