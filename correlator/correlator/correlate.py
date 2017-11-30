@@ -13,7 +13,7 @@ import hoomd
 from hoomd.correlator import _correlator
 ##
 #
-class example(hoomd.analyze._analyzer):
+class correlate(hoomd.analyze._analyzer):
     ## Initialize the correlator
     #
     # \param quantity -  the logger describing the values to be sent to the autocorrelator
