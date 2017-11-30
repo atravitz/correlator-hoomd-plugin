@@ -10,7 +10,7 @@
 # Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from
 # hoomd_script
 import hoomd
-
+from hoomd.correlator import correlate
 ##
 #
 class correlator(hoomd.analyze._analyzer):
@@ -29,6 +29,7 @@ class correlator(hoomd.analyze._analyzer):
 
         # initialize base class
         hoomd.analyze._analyzer.__init__(self)
+        hoomd.analyze._correlate.__init__(self)
 
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition) # FIX THIS
