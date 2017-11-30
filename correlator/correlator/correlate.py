@@ -13,7 +13,7 @@ import hoomd
 from hoomd.correlator import _correlator
 ##
 #
-class correlator(hoomd.analyze._analyzer):
+class example(hoomd.analyze._analyzer):
     ## Initialize the correlator
     #
     # \param quantity -  the logger describing the values to be sent to the autocorrelator
@@ -24,12 +24,12 @@ class correlator(hoomd.analyze._analyzer):
     # hoomd.analyze.correlate()
     # \endcode
 
-    def __init__(self, quantity, period):
+    def __init__(self, filename, quantities, period):
         hoomd.util.print_status_line()
 
         # initialize base class
         hoomd.analyze._analyzer.__init__(self)
-        hoomd.analyze._correlate.__init__(self)
+        #hoomd.analyze._correlate.__init__(self)
 
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition) # FIX THIS

@@ -12,7 +12,7 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
   }
 
 
-void Correlator::analyze(unsigned int timestep)
+void Correlator::correlate(unsigned int timestep)
   {
     if (m_prof) m_prof->push("Correlator");
 

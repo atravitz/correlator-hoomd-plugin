@@ -18,7 +18,7 @@ class Correlator : public Logger
     //! Constructor
     Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantity, int period);
 
-    virtual void analyze(unsigned int timestep);
+    virtual void correlate(unsigned int timestep);
 
   protected:
     // const std::shared_ptr<Logger> Logger;
