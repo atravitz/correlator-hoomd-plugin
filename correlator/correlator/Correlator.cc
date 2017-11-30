@@ -29,5 +29,5 @@ void Correlator::analyze(unsigned int timestep)
 void export_Correlator(pybind11::module& m)
   {
     pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "CorrelateAnalyzer", pybind11::base<Logger>())
-      .def(pybind11::init< shared_ptr<SystemDefinition>>, string<filename>, vector<std::string> <quantity>, string<period> >());
+      .def(pybind11::init< shared_ptr<SystemDefinition>, string , vector<std::string>  ,  int >());
   }
