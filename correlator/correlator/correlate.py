@@ -13,7 +13,7 @@ import hoomd
 
 ##
 #
-class correlate(hoomd.analyze._analyzer):
+class correlator(hoomd.analyze._analyzer):
     ## Initialize the correlator
     #
     # \param logger -  the logger describing the values to be sent to the autocorrelator
@@ -23,7 +23,7 @@ class correlate(hoomd.analyze._analyzer):
     # hoomd.analyze.correlate(log)
     # \endcode
 
-    def __init__(self, logger):
+    def __init__(self, quantity, period):
         hoomd.util.print_status_line()
 
         # initialize base class
@@ -31,5 +31,6 @@ class correlate(hoomd.analyze._analyzer):
 
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.CorrelateAnalyzer(logger.cpp_analyzer, hoomd.context.current.system_definition)
-
         self.setupAnalyzer(period)
+        ## context.currentloggers.append()
+##update quantites from analyze.py
