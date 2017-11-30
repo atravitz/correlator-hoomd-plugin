@@ -2,12 +2,13 @@
 
 using namespace std;
 
-Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string quantity, std::filename)
-  : Analyzer(sysdef), m_logger(logger), m_sysdef(sysdef), m_quantity(quantity)
+Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantity, int period)
+  : Logger(sysdef), m_sysdef(sysdef), m_quantity(quantity)
   {
-    assert(m_logger);
     assert(m_sysdef);
-    //set logged quantites
+    assert(m_quantity);
+    Logger:setLoggedQuantities(m_quantity);
+
   }
 
 
@@ -16,11 +17,11 @@ void Correlator::analyze(unsigned int timestep)
     if (m_prof) m_prof->push("Correlator");
 
     // access the logged data values
-    assert(m_logger);
+    assert(m_quantity);
 
+    Scalar logged_quantity = this->getQuantity(m_quantity[0], timestep, false);
 
-    Scalar logged_quantity = m_logger->getQuantity(m_quantity, timestep, false);
-    # pop
+    if (m_prof) m_prof->pop();
   }
 
 
@@ -28,6 +29,5 @@ void Correlator::analyze(unsigned int timestep)
 void export_Correlator(pybind11::module& m)
   {
     pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "CorrelateAnalyzer", pybind11::base<Logger>())
-      .def(pybind11::init< shared_ptr<SystemDefinition> >());
+      .def(pybind11::init< shared_ptr<SystemDefinition>>, string<filename>, vector<std::string> <quantity>, string<period> >());
   }
-//match to Correlator:Correlator

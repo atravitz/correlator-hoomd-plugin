@@ -12,17 +12,18 @@
 #include <hoomd/extern/pybind/include/pybind11/pybind11.h>
 #endif
 
-class Correlator : public Analyzer
+class Correlator : public Logger
   {
   public:
     //! Constructor
-    Correlator(std::shared_ptr<Logger> logger, std::shared_ptr<SystemDefinition> sysdef);
+    Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantity, int period);
 
     virtual void analyze(unsigned int timestep);
 
   protected:
-    const std::shared_ptr<Logger> m_logger;
+    // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;
+    const std::vector<std::string> m_quantity;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);

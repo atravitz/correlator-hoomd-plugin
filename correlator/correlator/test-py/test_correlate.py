@@ -11,7 +11,5 @@ class test_simple(unittest.TestCase):
         log = hoomd.analyze.correlate(filename='correlate.log', quantities='potential_energy', period=1)
 
 
-
-
 if __name__ == '__main__':
     unittest.main(argv = ['test_example.py', '-v'])

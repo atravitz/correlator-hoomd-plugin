@@ -16,11 +16,12 @@ import hoomd
 class correlator(hoomd.analyze._analyzer):
     ## Initialize the correlator
     #
-    # \param logger -  the logger describing the values to be sent to the autocorrelator
+    # \param quantity -  the logger describing the values to be sent to the autocorrelator
+    # \param period - frequency that data is sent to the autocorrelator
     #
     # \b Examples:
     # \code
-    # hoomd.analyze.correlate(log)
+    # hoomd.analyze.correlate()
     # \endcode
 
     def __init__(self, quantity, period):
@@ -30,7 +31,38 @@ class correlator(hoomd.analyze._analyzer):
         hoomd.analyze._analyzer.__init__(self)
 
         # initialize the reflected c++ class
-        self.cpp_analyzer = _correlator.CorrelateAnalyzer(logger.cpp_analyzer, hoomd.context.current.system_definition)
+        self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition) # FIX THIS
         self.setupAnalyzer(period)
-        ## context.currentloggers.append()
-##update quantites from analyze.py
+
+        # add the correlator to the list of loggers
+        hoomd.context.currentloggers.append(self)
+
+    # \brief Re-registers all computes and updaters with the logger
+    def update_quantities(self):
+        #remove all registered quantities
+        self.cpp_analyzer.removeAll();
+
+        #re-register all computes and updaters
+        hoomd.context.current.system.registerLogger(self.cpp_analyzer)
+
+    def disable(self):
+        hoomd.util.print_status_line()
+        hoomd.util.quiet_status()
+        _analyzer.disable(self)
+        hoomd.util.unquiet_status()
+
+        hoomd.context.current.loggers.remove(self)
+
+    def enable(self):
+        hoomd.util.print_status_line()
+
+        hoomd.util.quiet_status()
+        _analyzer.enable(self)
+        hoomd.util.unquiet_status()
+
+        hoomd.context.current.loggers.append(self)
+
+    #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
+        # base this on logPlainTXT
+
+    #ALLOW REGISTERING CALLBACKS
