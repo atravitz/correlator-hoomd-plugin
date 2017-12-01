@@ -36,7 +36,7 @@ class correlate(hoomd.analyze._analyzer):
         self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers
-        hoomd.context.currentloggers.append(self)
+        hoomd.context.current.loggers.append(self)
 
     # \brief Re-registers all computes and updaters with the logger
     def update_quantities(self):
