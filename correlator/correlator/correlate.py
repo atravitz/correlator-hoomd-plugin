@@ -32,7 +32,7 @@ class correlate(hoomd.analyze._analyzer):
         #hoomd.analyze._correlate.__init__(self)
 
         # initialize the reflected c++ class
-        self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition)
+        self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition)
         self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers
@@ -62,6 +62,8 @@ class correlate(hoomd.analyze._analyzer):
         hoomd.util.unquiet_status()
         hoomd.context.msg.warning("correlator is enabled \n")
         hoomd.context.current.loggers.append(self)
+
+
 
     #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
         # base this on logPlainTXT
