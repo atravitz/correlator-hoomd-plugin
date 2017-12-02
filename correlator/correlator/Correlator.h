@@ -6,6 +6,7 @@
 #include <hoomd/Logger.h>
 #include <hoomd/Analyzer.h>
 #include <hoomd/SystemDefinition.h>
+#include "hoomd/Filesystem.h"
 
 
 #ifndef NVCC

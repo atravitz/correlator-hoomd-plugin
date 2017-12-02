@@ -15,13 +15,13 @@ from hoomd.correlator import _correlator
 #
 class correlate(hoomd.analyze._analyzer):
     ## Initialize the correlator
-    #
+    # \param filename - the name of the file containing output
     # \param quantity -  the logger describing the values to be sent to the autocorrelator
     # \param period - frequency that data is sent to the autocorrelator
     #
     # \b Examples:
     # \code
-    # hoomd.analyze.correlate()
+    # hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['potential_energy'], period=1)
     # \endcode
 
     def __init__(self, filename, quantities, period):
@@ -32,7 +32,7 @@ class correlate(hoomd.analyze._analyzer):
         #hoomd.analyze._correlate.__init__(self)
 
         # initialize the reflected c++ class
-        self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition) # FIX THIS
+        self.cpp_analyzer = _correlator.CorrelateAnalyzer(hoomd.context.current.system_definition)
         self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers
@@ -49,18 +49,18 @@ class correlate(hoomd.analyze._analyzer):
     def disable(self):
         hoomd.util.print_status_line()
         hoomd.util.quiet_status()
-        _analyzer.disable(self)
         hoomd.util.unquiet_status()
-
+        # _analyzer.disable(self)
         hoomd.context.current.loggers.remove(self)
+        hoomd.context.msg.warning("correlator is disabled \n");
 
     def enable(self):
         hoomd.util.print_status_line()
 
         hoomd.util.quiet_status()
-        _analyzer.enable(self)
+        # _analyzer.enable(self)
         hoomd.util.unquiet_status()
-
+        hoomd.context.msg.warning("correlator is enabled \n")
         hoomd.context.current.loggers.append(self)
 
     #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
