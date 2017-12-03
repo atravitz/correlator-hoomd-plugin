@@ -6,10 +6,10 @@
 using namespace std;
 
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
-  : Logger(sysdef), m_sysdef(sysdef)
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename)
   {
     assert(m_sysdef);
-    
+
 
 
     m_exec_conf->msg->notice(5) << "Constructing Correlator: "  << endl;
@@ -45,7 +45,7 @@ void Correlator::analyze(unsigned int timestep)
     //
     // cout<<"screen output testing" << endl;
     ofstream m_file;
-    m_file.open("filename.txt");
+    m_file.open(m_fname);
     m_file << "testing output. \n";
     m_file.close();
     // Scalar logged_quantity = this->getQuantity(quantities[0], timestep, false);

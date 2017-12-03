@@ -25,6 +25,7 @@ class Correlator : public Logger
     // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;
     const std::vector<std::string> m_quantity;
+    const std::string m_fname;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);
