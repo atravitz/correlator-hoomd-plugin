@@ -5,10 +5,12 @@
 #include <fstream>
 using namespace std;
 
-Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef)
+Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
   : Logger(sysdef), m_sysdef(sysdef)
   {
     assert(m_sysdef);
+    
+
 
     m_exec_conf->msg->notice(5) << "Constructing Correlator: "  << endl;
   }
@@ -53,5 +55,5 @@ void Correlator::analyze(unsigned int timestep)
 void export_Correlator(pybind11::module& m)
   {
     pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "Correlator", pybind11::base<Logger>())
-      .def(pybind11::init< shared_ptr<SystemDefinition> >());
+      .def(pybind11::init< shared_ptr<SystemDefinition>, string , vector<std::string>, int  >());
   }

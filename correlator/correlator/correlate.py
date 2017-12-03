@@ -10,6 +10,7 @@
 # Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from
 # hoomd_script
 import hoomd
+from hoomd import _hoomd
 from hoomd.correlator import _correlator
 ##
 #
@@ -31,8 +32,12 @@ class correlate(hoomd.analyze._analyzer):
         hoomd.analyze._analyzer.__init__(self)
         #hoomd.analyze._correlate.__init__(self)
 
+        quantity_list = _hoomd.std_vector_string();
+        for item in quantities:
+            quantity_list.append(str(item));
+    # // self.cpp_analyzer.setLoggedQuantities
         # initialize the reflected c++ class
-        self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition)
+        self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition, filename, quantity_list, period)
         self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers
