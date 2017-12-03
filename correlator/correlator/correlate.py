@@ -48,22 +48,23 @@ class correlate(hoomd.analyze._analyzer):
 
     def disable(self):
         hoomd.util.print_status_line()
+
         hoomd.util.quiet_status()
         hoomd.util.unquiet_status()
-        # _analyzer.disable(self)
+
+        hoomd.analyze._analyzer.disable(self)
         hoomd.context.current.loggers.remove(self)
-        hoomd.context.msg.warning("correlator is disabled \n");
+        hoomd.context.msg.notice(1, "correlator is disabled \n");
 
     def enable(self):
         hoomd.util.print_status_line()
 
         hoomd.util.quiet_status()
-        # _analyzer.enable(self)
         hoomd.util.unquiet_status()
-        hoomd.context.msg.warning("correlator is enabled \n")
+
+        hoomd.analyze._analyzer.enable(self)
         hoomd.context.current.loggers.append(self)
-
-
+        hoomd.context.msg.notice(1, "correlator is enabled \n")
 
     #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
         # base this on logPlainTXT

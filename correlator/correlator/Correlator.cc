@@ -25,7 +25,6 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef)
 //     m_file.close();
 //     cout << "Hi Alyssa" << endl;
 //
-//
 //     // access the logged data values
 //     // m_quantity(quantities)
 //     // assert(m_quantity);
@@ -41,8 +40,8 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef)
 
 void Correlator::analyze(unsigned int timestep)
   {
-
-    cout<<"screen output testing" << endl;
+    //
+    // cout<<"screen output testing" << endl;
     ofstream m_file;
     m_file.open("filename.txt");
     m_file << "testing output. \n";
