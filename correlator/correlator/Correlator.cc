@@ -1,4 +1,5 @@
 #include "Correlator.h"
+#include "correlator_likh.h"
 #include <iomanip>
 #include <stdexcept>
 #include <iostream>
@@ -19,11 +20,26 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
 void Correlator::analyze(unsigned int timestep)
   {
     setLoggedQuantities(m_quantities);
-    Scalar logged_quantity = this->getQuantity(m_quantities[0], timestep, false);
+    Scalar value = this->getQuantity(m_quantities[0], timestep, false);
+
+    // m_file.open(m_fname);
+    // m_file << logged_quantity;
+
+    Correlator_Likh c;
+    c.setsize(32,16,2);
+    c.initialize();
+
+    c.add(value);
+
     ofstream m_file;
     m_file.open(m_fname);
-    m_file << logged_quantity;
-    
+    c.evaluate();
+    for (unsigned int i=0; i<c.npcorr;++i)
+      m_file << c.t[i] << " " << c.f[i] << endl;
+    m_file.close();
+
+
+
   }
 
 
