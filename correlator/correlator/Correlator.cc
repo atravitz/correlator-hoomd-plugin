@@ -7,13 +7,16 @@
 using namespace std;
 
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities)
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr()
   {
     assert(m_sysdef);
     assert(m_fname);
     assert(m_quantities);
 
     m_exec_conf->msg->notice(5) << "Constructing Correlator: "  << endl;
+    // Correlator_Likh c;
+    // m.setsize(32,16,2);
+    // .initialize();
   }
 
 
@@ -25,18 +28,22 @@ void Correlator::analyze(unsigned int timestep)
     // m_file.open(m_fname);
     // m_file << logged_quantity;
 
-    Correlator_Likh c;
-    c.setsize(32,16,2);
-    c.initialize();
+
 
     c.add(value);
 
     ofstream m_file;
-    m_file.open(m_fname);
-    c.evaluate();
-    for (unsigned int i=0; i<c.npcorr;++i)
-      m_file << c.t[i] << " " << c.f[i] << endl;
-    m_file.close();
+    if (!m_file.is_open())
+      m_file.open(m_fname);
+
+    if (timestep == 1000)
+      cout <<timestep << endl;
+      c.evaluate();
+      cout<< c.npcorr << endl;
+    // for (unsigned int i=0; i<c.npcorr;++i)
+    //
+    //   m_file << c.t[i] << " " << c.f[i] << endl;
+      // m_file.close();
 
 
 

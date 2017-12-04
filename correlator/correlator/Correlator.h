@@ -7,6 +7,7 @@
 #include <hoomd/Analyzer.h>
 #include <hoomd/SystemDefinition.h>
 #include "hoomd/Filesystem.h"
+#include "correlator_likh.h"
 
 
 #ifndef NVCC
@@ -27,6 +28,7 @@ class Correlator : public Logger
     const std::vector<std::string> m_quantity;
     const std::string m_fname;
     const std::vector<std::string> m_quantities;
+    const std::shared_ptr<correlator_likh> m_corr;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);

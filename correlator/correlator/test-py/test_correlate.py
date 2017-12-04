@@ -15,10 +15,11 @@ class test_simple(unittest.TestCase):
         md.integrate.nve(group = all)
         # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
         corr = hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['pressure'], period=1)
+
         # corr.disable()
         # corr.enable()
         # corr.update_quantities() ## not sure of the purpose of this
 
-        run(100000)
+        run(2000)
 if __name__ == '__main__':
     unittest.main(argv = ['test_correlate.py', '-v'])
