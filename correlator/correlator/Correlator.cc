@@ -14,9 +14,9 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
     assert(m_quantities);
 
     m_exec_conf->msg->notice(5) << "Constructing Correlator: "  << endl;
-    // Correlator_Likh c;
-    // m.setsize(32,16,2);
-    // .initialize();
+    Correlator_Likh m_corr;
+    m_corr.setsize(32,16,2);
+    m_corr.initialize();
   }
 
 
@@ -30,7 +30,7 @@ void Correlator::analyze(unsigned int timestep)
 
 
 
-    c.add(value);
+    m_corr->add(value);
 
     ofstream m_file;
     if (!m_file.is_open())
@@ -38,8 +38,8 @@ void Correlator::analyze(unsigned int timestep)
 
     if (timestep == 1000)
       cout <<timestep << endl;
-      c.evaluate();
-      cout<< c.npcorr << endl;
+      m_corr->evaluate();
+      cout<< m_corr->npcorr << endl;
     // for (unsigned int i=0; i<c.npcorr;++i)
     //
     //   m_file << c.t[i] << " " << c.f[i] << endl;

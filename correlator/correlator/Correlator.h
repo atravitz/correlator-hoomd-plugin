@@ -28,7 +28,7 @@ class Correlator : public Logger
     const std::vector<std::string> m_quantity;
     const std::string m_fname;
     const std::vector<std::string> m_quantities;
-    const std::shared_ptr<correlator_likh> m_corr;
+    const std::shared_ptr<Correlator_Likh> m_corr;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);
