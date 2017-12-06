@@ -8,7 +8,7 @@
 /// Standard Scalar Correlator f(tau)=<A(t)A(t+tau)>
 class Correlator_Likh {
 
-protected:
+public:
 	/** Where the coming values are stored */
 	double **shift;
 	/** Array containing the actual calculated correlation function */
@@ -42,7 +42,7 @@ protected:
 	/** Maximum correlator attained during simulation */
 	unsigned int kmax;
 
-public:
+// public:
 	/** Points per correlator */
 	unsigned int p;
 	/** Number of points over which to average; RECOMMENDED: p mod m = 0 */

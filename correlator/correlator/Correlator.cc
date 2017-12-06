@@ -13,33 +13,39 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
     assert(m_fname);
     assert(m_quantities);
 
-    m_exec_conf->msg->notice(5) << "Constructing Correlator: "  << endl;
+    cout << "Constructing Correlator: "  << endl;
+
+
     Correlator_Likh m_corr;
+    cout << &m_corr << endl;
     m_corr.setsize(32,16,2);
+    cout << "BOOP";
+    cout << m_corr.correlation << endl;
     m_corr.initialize();
+
   }
 
 
 void Correlator::analyze(unsigned int timestep)
   {
-    setLoggedQuantities(m_quantities);
-    Scalar value = this->getQuantity(m_quantities[0], timestep, false);
 
+    setLoggedQuantities(m_quantities);
+    double value = this->getQuantity(m_quantities[0], timestep, false);
+    m_corr->add(8);
     // m_file.open(m_fname);
     // m_file << logged_quantity;
 
 
-
-    m_corr->add(value);
-
-    ofstream m_file;
-    if (!m_file.is_open())
-      m_file.open(m_fname);
-
-    if (timestep == 1000)
-      cout <<timestep << endl;
-      m_corr->evaluate();
-      cout<< m_corr->npcorr << endl;
+    // m_corr->add(value);
+    //
+    // ofstream m_file;
+    // if (!m_file.is_open())
+    //   m_file.open(m_fname);
+    //
+    // if (timestep == 1000)
+    //   cout <<timestep << endl;
+    //   m_corr->evaluate();
+    //   cout<< m_corr->npcorr << endl;
     // for (unsigned int i=0; i<c.npcorr;++i)
     //
     //   m_file << c.t[i] << " " << c.f[i] << endl;

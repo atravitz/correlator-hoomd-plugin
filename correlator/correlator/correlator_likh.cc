@@ -1,5 +1,8 @@
 #include "correlator_likh.h"
 #include <math.h>
+#include <iostream>
+
+using namespace std;
 
 /////////////////////////////////////////
 // Correlator class
@@ -51,6 +54,7 @@ void Correlator_Likh::setsize (const unsigned int numcorrin, const unsigned int 
 
 	t = new double[length];
 	f = new double[length];
+
 }
 
 
@@ -72,13 +76,13 @@ void Correlator_Likh::initialize() {
 		f[i] = 0;
 	}
 
+
 	npcorr =0;
 	kmax=0;
 	accval=0;
 }
 
 void Correlator_Likh::add(const double w, const unsigned int k) {
-
 	/// If we exceed the correlator side, the value is discarded
 	if (k == numcorrelators) return;
 	if (k > kmax) kmax=k;
