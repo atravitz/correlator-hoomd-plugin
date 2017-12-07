@@ -12,7 +12,7 @@ class test_simple(unittest.TestCase):
         sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1,2]);
         all = group.all()
         md.integrate.mode_standard(dt=0.01)
-        md.integrate.nve(group = all)
+        md.integrate.langevin(group = all, kT=1,seed = 234)
         # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
         corr = hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['pressure'], period=1)
 

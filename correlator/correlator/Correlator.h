@@ -19,6 +19,7 @@ class Correlator : public Logger
   public:
     //! Constructor
     Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep);
+    ~Correlator();
 
     virtual void analyze(unsigned int timestep); //std::string filename, std::vector<std::string> quantities,
 
@@ -28,7 +29,7 @@ class Correlator : public Logger
     const std::vector<std::string> m_quantity;
     const std::string m_fname;
     const std::vector<std::string> m_quantities;
-    const std::shared_ptr<Correlator_Likh> m_corr;
+    Correlator_Likh m_corr;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);

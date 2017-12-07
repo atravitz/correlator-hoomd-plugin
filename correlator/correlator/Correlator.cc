@@ -7,23 +7,23 @@
 using namespace std;
 
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr()
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr(32,16,4)
   {
     assert(m_sysdef);
     assert(m_fname);
     assert(m_quantities);
+    assert(m_corr);
 
-    cout << "Constructing Correlator: "  << endl;
-
-
-    Correlator_Likh m_corr;
-    cout << &m_corr << endl;
-    m_corr.setsize(32,16,2);
-    cout << "BOOP";
-    cout << m_corr.correlation << endl;
+    m_corr.setsize();
     m_corr.initialize();
 
+
   }
+
+Correlator::~Correlator()
+{
+  cout << "Destructing Logger" << endl;
+}
 
 
 void Correlator::analyze(unsigned int timestep)
@@ -31,7 +31,9 @@ void Correlator::analyze(unsigned int timestep)
 
     setLoggedQuantities(m_quantities);
     double value = this->getQuantity(m_quantities[0], timestep, false);
-    m_corr->add(8);
+    m_corr.add(value);
+    cout << m_corr.p << endl;
+    // ofstream m_file;
     // m_file.open(m_fname);
     // m_file << logged_quantity;
 
