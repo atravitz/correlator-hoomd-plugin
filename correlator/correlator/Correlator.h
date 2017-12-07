@@ -23,6 +23,7 @@ class Correlator : public Logger
 
     virtual void analyze(unsigned int timestep); //std::string filename, std::vector<std::string> quantities,
 
+    virtual void logging(unsigned int timestep);
   protected:
     // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;
@@ -30,6 +31,9 @@ class Correlator : public Logger
     const std::string m_fname;
     const std::vector<std::string> m_quantities;
     Correlator_Likh m_corr;
+    //The following are logging variables
+    std::ofstream m_file;
+    bool m_is_initialized;
   };
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);

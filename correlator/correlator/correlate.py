@@ -39,7 +39,7 @@ class correlate(hoomd.analyze._analyzer):
 
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition, filename, quantity_list, period)
-        self.cpp_analyzer.setLoggedQuantities
+        self.cpp_analyzer.setLoggedQuantities(quantity_list)
         self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers

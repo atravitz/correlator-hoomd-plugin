@@ -54,7 +54,6 @@ void Correlator_Likh::setsize (const unsigned int numcorrin, const unsigned int 
 
 	t = new double[length];
 	f = new double[length];
-
 }
 
 

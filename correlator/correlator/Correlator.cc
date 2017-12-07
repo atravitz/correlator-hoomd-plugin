@@ -7,14 +7,13 @@
 using namespace std;
 
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr(32,16,4)
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr(32,16,4), m_is_initialized(false)
   {
     assert(m_sysdef);
     assert(m_fname);
     assert(m_quantities);
     assert(m_corr);
 
-    m_corr.setsize();
     m_corr.initialize();
 
 
@@ -36,6 +35,38 @@ void Correlator::analyze(unsigned int timestep)
     // ofstream m_file;
     // m_file.open(m_fname);
     // m_file << logged_quantity;
+
+    if ((timestep+1)%2 == 0)
+        {
+        if (! m_is_initialized)
+            {
+            m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
+            m_file.open(m_fname.c_str(), ios_base::out);
+            }
+
+        m_is_initialized = true;
+        m_corr.evaluate();
+        m_file << "timestep: " << timestep;
+        m_file << ("\n");
+        for (unsigned int i=0;i<m_corr.npcorr;++i)
+            m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
+        m_file << ("\n");
+        m_file.flush();
+        }
+  }
+
+void Correlator::logging(unsigned int timestep)
+  {
+    if (! m_is_initialized)
+        {
+        m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
+        m_file.open(m_fname.c_str(), ios_base::out);
+        }
+
+    m_is_initialized = true;
+//    m_corr->add(8);
+//    m_file.open(m_fname);
+//   m_file << value;
 
 
     // m_corr->add(value);
