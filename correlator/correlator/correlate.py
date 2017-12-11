@@ -73,6 +73,11 @@ class correlate(hoomd.analyze._analyzer):
         hoomd.context.current.loggers.append(self)
         hoomd.context.msg.notice(1, "correlator is enabled \n")
 
+    def evaluate(self, eval_period):
+        hoomd.util.print_status_line()
+
+
+
     #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
         # base this on logPlainTXT
 

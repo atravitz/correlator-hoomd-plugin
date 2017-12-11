@@ -36,6 +36,7 @@ void Correlator::analyze(unsigned int timestep)
     // m_file.open(m_fname);
     // m_file << logged_quantity;
 
+    // brute force log every other timestep
     if ((timestep+1)%2 == 0)
         {
         if (! m_is_initialized)
@@ -55,15 +56,17 @@ void Correlator::analyze(unsigned int timestep)
         }
   }
 
-void Correlator::logging(unsigned int timestep)
-  {
-    if (! m_is_initialized)
-        {
-        m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
-        m_file.open(m_fname.c_str(), ios_base::out);
-        }
+void Correlator::evaluate(unsigned int timestep, unsigned int eval_period)
 
-    m_is_initialized = true;
+// void Correlator::logging(unsigned int timestep)
+//   {
+//     if (! m_is_initialized)
+//         {
+//         m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
+//         m_file.open(m_fname.c_str(), ios_base::out);
+//         }
+//
+//     m_is_initialized = true;
 //    m_corr->add(8);
 //    m_file.open(m_fname);
 //   m_file << value;
