@@ -32,7 +32,6 @@ void Correlator::analyze(unsigned int timestep)
     setLoggedQuantities(m_quantities);
     double value = this->getQuantity(m_quantities[0], timestep, false);
     m_corr.add(value);
-    cout << m_corr.p << endl;
     // ofstream m_file;
     // m_file.open(m_fname);
     // m_file << logged_quantity;
