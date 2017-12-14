@@ -6,13 +6,14 @@
 #include <fstream>
 using namespace std;
 
-Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_corr(32,16,4), m_is_initialized(false)
+Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep, unsigned int eval_period)
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_eval(eval_period), m_corr(32,16,4), m_is_initialized(false)
   {
     assert(m_sysdef);
     assert(m_fname);
     assert(m_quantities);
     assert(m_corr);
+    assert(m_eval);
 
     m_corr.initialize();
 
@@ -37,7 +38,7 @@ void Correlator::analyze(unsigned int timestep)
     // m_file << logged_quantity;
 
     // brute force log every other timestep
-    if ((timestep+1)%2 == 0)
+    if ((timestep)%(m_eval) == 0)
         {
         if (! m_is_initialized)
             {
@@ -56,7 +57,7 @@ void Correlator::analyze(unsigned int timestep)
         }
   }
 
-void Correlator::evaluate(unsigned int timestep, unsigned int eval_period)
+//void Correlator::evaluate(unsigned int timestep, unsigned int eval_period)
 
 // void Correlator::logging(unsigned int timestep)
 //   {
@@ -89,11 +90,11 @@ void Correlator::evaluate(unsigned int timestep, unsigned int eval_period)
 
 
 
-  }
+//  }
 
 
 void export_Correlator(pybind11::module& m)
   {
     pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "Correlator", pybind11::base<Logger>())
-      .def(pybind11::init< shared_ptr<SystemDefinition>, string , vector<std::string>, int  >());
+      .def(pybind11::init< shared_ptr<SystemDefinition>, string , vector<std::string>, int, int  >());
   }

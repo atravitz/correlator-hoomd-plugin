@@ -14,12 +14,12 @@ class test_simple(unittest.TestCase):
         md.integrate.mode_standard(dt=0.01)
         md.integrate.langevin(group = all, kT=1,seed = 234)
         # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
-        corr = hoomd.correlator.correlate.correlate(filename="outfile", quantities=['pressure'], period=1)
+        corr = hoomd.correlator.correlate.correlate(filename="outfile", quantities=['pressure'], period=1, eval_period=5)
 
         # corr.disable()
         # corr.enable()
         # corr.update_quantities() ## not sure of the purpose of this
 
-        run(10)
+        run(100)
 if __name__ == '__main__':
     unittest.main(argv = ['test_correlate.py', '-v'])
