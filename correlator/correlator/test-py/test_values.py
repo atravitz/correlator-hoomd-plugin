@@ -23,7 +23,7 @@ class TestMain(unittest.TestCase):
 
             subprocess.call([path+'/Correlator_IO', 'inputtest.txt', 'outputtest.txt'])
 
-            postprocessye = pd.DataFrame()
+            comparedata = pd.DataFrame()
             comparedata['postprocess'] = pd.read_table('outputtest.txt', delim_whitespace = True, usecols=[1], header = None, names = ['output'])
             comparedata['onthefly'] = pd.read_table('corr.log',skiprows=0, delim_whitespace = True, usecols=[1])
 
