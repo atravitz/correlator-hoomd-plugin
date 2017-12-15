@@ -19,7 +19,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'test-py')
 
 QUANTITIES = ['pressure']
 FILENAME = 'outfile'
-OUTFILES_VALUES = ['outputtest.txt','inputtest.txt','pressure_xy.log','corr.log']
+OUTFILES_VALUES = ['outputtest.txt', 'inputtest.txt', 'pressure_xy.log', 'corr.log']
 
 
 class TestMain(unittest.TestCase):
@@ -31,8 +31,8 @@ class TestMain(unittest.TestCase):
             all = group_all
             md.integrate.mode_standard(dt=0.01)
             md.integrate.langevin(group=all, kT=1, seed=234)
-            # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
 
+            #Additional correlator functions
             # corr.disable()
             # corr.enable()
             # corr.update_quantities() ## not sure of the purpose of this
@@ -61,8 +61,6 @@ class TestMain(unittest.TestCase):
             for n, val in comparedata.postprocess.iteritems():
                 diff = val - comparedata.onthefly[n]
                 self.assertFalse(diff >= 1e-6)
-
-                    ##should i do this as an assert statepoint instead?
 
         finally:
             for OUT in OUTFILES_VALUES:
