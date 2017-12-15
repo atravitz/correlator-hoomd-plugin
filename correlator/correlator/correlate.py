@@ -14,7 +14,7 @@ from hoomd import _hoomd
 from hoomd.correlator import _correlator
 ##
 #
-class correlate(hoomd.analyze._analyzer):
+class autocorrelate(hoomd.analyze._analyzer):
     ## Initialize the correlator
     # \param filename - the name of the file containing output
     # \param quantity -  the logger describing the values to be sent to the autocorrelator

@@ -24,7 +24,7 @@ class test_simple(unittest.TestCase):
         # corr.enable()
         # corr.update_quantities() ## not sure of the purpose of this
 
-        corr = hoomd.correlator.correlate.correlate(filename=FILENAME, quantities=QUANTITIES)
+        corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES)
         run(100)
 
 
