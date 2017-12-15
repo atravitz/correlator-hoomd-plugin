@@ -6,26 +6,52 @@ from hoomd import correlator
 hoomd.context.initialize();
 import unittest;
 import os;
+import logging
+import errno
+
+logging.basicConfig(level=logging.DEBUG) # uncomment this for debug mode
+logger = logging.getLogger(__name__)
+DISABLE_REMOVE = logger.isEnabledFor(logging.DEBUG)
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'test-py')
 
 QUANTITIES = ['pressure']
-FILENAME = "outfile"
+FILENAME = 'outfile'
 
+def silent_remove(filename, disable=False):
+    """
+    Removes the target file name, catching and ignoring errors that indicate that the
+    file does not exist.
 
-class test_simple(unittest.TestCase):
-    def test_constructor(self):
-        sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
-        group_all = group.all()
-        all = group_all
-        md.integrate.mode_standard(dt=0.01)
-        md.integrate.langevin(group=all, kT=1, seed=234)
-        # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
+    @param filename: The file to remove.
+    @param disable: boolean to flag if want to disable removal
+    """
+    if not disable:
+        try:
+            os.remove(filename)
+        except OSError as e:
+            if e.errno != errno.ENOENT:
+                raise
 
-        # corr.disable()
-        # corr.enable()
-        # corr.update_quantities() ## not sure of the purpose of this
+class TestMain(unittest.TestCase):
+    def testOutput(self):
+        try:
+          silent_remove(FILENAME)
+          sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
+          group_all = group.all()
+          all = group_all
+          md.integrate.mode_standard(dt=0.01)
+          md.integrate.langevin(group=all, kT=1, seed=234)
+          # logger = analyze.log(filename='mylog.log', period=1, quantities=['volume'])
 
-        corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES)
-        run(100)
+          # corr.disable()
+          # corr.enable()
+          # corr.update_quantities() ## not sure of the purpose of this
+
+          corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES)
+          run(100)
+          corr.evaluate()
+        finally:
+            silent_remove(FILENAME, disable=DISABLE_REMOVE)
 
 
 if __name__ == '__main__':

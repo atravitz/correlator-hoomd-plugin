@@ -73,8 +73,10 @@ class autocorrelate(hoomd.analyze._analyzer):
         hoomd.context.current.loggers.append(self)
         hoomd.context.msg.notice(1, "correlator is enabled \n")
 
-#    def evaluate(self, eval_period):
-#        hoomd.util.print_status_line()
+    def evaluate(self):
+        hoomd.util.print_status_line()
+
+        self.cpp_analyzer.evaluate(hoomd.get_step())
 
 
 
