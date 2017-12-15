@@ -169,7 +169,7 @@ logger = analyze.log(filename = 'pressure_xy.log', quantities = ['pressure_xy'],
 # logger = analyze.log(filename = 'stress_xy.log', quantities = ['stress_xy'], period = 10, overwrite = True)
 # logger.register_callback('stress_xy', stressxy)
 
-corr = correlator.correlate.correlate(filename="corr.log", quantities=['pressure_xy'], period=10, phase=0)
+corr = correlator.correlate.correlate(filename="corr.log", quantities=['pressure_xy'], period=10)
 
 
 #dump to make job restartable
