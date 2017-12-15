@@ -7,7 +7,7 @@
 using namespace std;
 
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int timestep, unsigned int eval_period)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_eval(eval_period), m_corr(32,16,4), m_is_initialized(false)
+  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_eval(eval_period), m_corr(32,16,2), m_is_initialized(false)
   {
     assert(m_sysdef);
     assert(m_fname);
@@ -28,6 +28,8 @@ Correlator::~Correlator()
       }
 
   m_is_initialized = true;
+
+  //evaluate correlator at last time step
   m_corr.evaluate();
   m_file << "#final values:" << endl;
   for (unsigned int i=0;i<m_corr.npcorr;++i)

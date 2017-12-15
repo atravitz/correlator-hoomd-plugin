@@ -179,4 +179,3 @@ def fcc():
     #dcd = dump.dcd(filename="dump.dcd", overwrite = True, period=100)
     #xml = deprecated.dump.xml(group = group.all(), filename= 'init.xml', all = True)
 
-    run(int(run_steps))

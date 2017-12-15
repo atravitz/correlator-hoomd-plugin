@@ -14,7 +14,7 @@ from hoomd import _hoomd
 from hoomd.correlator import _correlator
 ##
 #
-class correlate(hoomd.analyze._analyzer):
+class autocorrelate(hoomd.analyze._analyzer):
     ## Initialize the correlator
     # \param filename - the name of the file containing output
     # \param quantity -  the logger describing the values to be sent to the autocorrelator
@@ -25,7 +25,7 @@ class correlate(hoomd.analyze._analyzer):
     # hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['potential_energy'], period=1)
     # \endcode
 
-    def __init__(self, filename, quantities, period, eval_period=0, phase=0):
+    def __init__(self,  quantities, filename="autocorrelate.log", period=1, eval_period=0):
         hoomd.util.print_status_line()
 
         # initialize base class
@@ -40,7 +40,7 @@ class correlate(hoomd.analyze._analyzer):
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition, filename, quantity_list, period, eval_period)
         self.cpp_analyzer.setLoggedQuantities(quantity_list)
-        self.setupAnalyzer(period, phase)
+        self.setupAnalyzer(period)
 
         # add the correlator to the list of loggers
         hoomd.context.current.loggers.append(self)
