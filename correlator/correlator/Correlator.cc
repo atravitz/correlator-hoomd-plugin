@@ -29,7 +29,7 @@ Correlator::~Correlator()
 
   m_is_initialized = true;
   m_corr.evaluate();
-  m_file << "Final values:" << endl;
+  m_file << "#final values:" << endl;
   for (unsigned int i=0;i<m_corr.npcorr;++i)
       m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
   m_file << ("\n");

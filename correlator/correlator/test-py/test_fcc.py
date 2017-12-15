@@ -1,4 +1,4 @@
-from hoomd import *
+ufrom hoomd import *
 from hoomd import md
 from hoomd import deprecated
 from hoomd import correlator
@@ -22,9 +22,9 @@ spacing = D + 3 #space out the colloids a little (nearest neighbor spacing)
 a = np.sqrt(2)*spacing #lattice parameter
 pos_offset = np.multiply([1,1,1],(R_true*np.sqrt(2)/2))  ###possible values of offset that defines polymer position. will be used to check for periodic bound
 
-eql_steps = 2e4
-run_steps = 1e7
-dump_period = run_steps/100
+eql_steps = 1e4
+run_steps = 1e5
+dump_period = run_steps/10
 
 T = 1.0
 N_Kuhn = 60 # number of Kuhn steps per polymer chain
@@ -165,11 +165,11 @@ integrator_mode = md.integrate.mode_standard(dt=0.005)
 run(eql_steps)
 
 # dump pressure values
-logger = analyze.log(filename = 'output.log', quantities = ['pressure_xy'], period = 10, overwrite = True)
-logger = analyze.log(filename = 'output.log', quantities = ['stress_xy'], period = 10, overwrite = True)
-logger.register_callback('stress_xy', stressxy)
+logger = analyze.log(filename = 'pressure_xy.log', quantities = ['pressure_xy'], period = 10, overwrite = True)
+# logger = analyze.log(filename = 'stress_xy.log', quantities = ['stress_xy'], period = 10, overwrite = True)
+# logger.register_callback('stress_xy', stressxy)
 
-corr = correlator.correlate.correlate(filename="outfile", quantities=['pressure_xy'], period=1, phase=int(eql_steps))
+corr = correlator.correlate.correlate(filename="corr.log", quantities=['pressure_xy'], period=10, phase=0)
 
 
 #dump to make job restartable
