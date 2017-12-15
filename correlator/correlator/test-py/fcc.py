@@ -162,7 +162,7 @@ def fcc():
     integrate_all.set_gamma('polymer',1.0)
     integrate_all.set_gamma_r('polymer',1.0)
     integrator_mode = md.integrate.mode_standard(dt=0.005)
-    run(eql_steps)
+
 
     # dump pressure values
     logger = analyze.log(filename = 'pressure_xy.log', quantities = ['pressure_xy'], period = 10, overwrite = True)
@@ -170,3 +170,13 @@ def fcc():
     # logger.register_callback('stress_xy', stressxy)
 
     corr = correlator.correlate.autocorrelate(filename="corr.log", quantities=['pressure_xy'], period=10)
+    run(eql_steps)
+    corr.evaluate()
+
+    #dump to make job restartable
+    #dump.gsd(filename="restart.gsd", group=group.all(), truncate=True, period=10000, phase=0)
+
+    ### dump files for VMD ###
+    #dcd = dump.dcd(filename="dump.dcd", overwrite = True, period=100)
+    #xml = deprecated.dump.xml(group = group.all(), filename= 'init.xml', all = True)
+
