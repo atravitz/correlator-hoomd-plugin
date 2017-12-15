@@ -25,7 +25,7 @@ class correlate(hoomd.analyze._analyzer):
     # hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['potential_energy'], period=1)
     # \endcode
 
-    def __init__(self, filename, quantities, period, eval_period):
+    def __init__(self, filename, quantities, period, eval_period=0, phase=0):
         hoomd.util.print_status_line()
 
         # initialize base class
@@ -40,7 +40,7 @@ class correlate(hoomd.analyze._analyzer):
         # initialize the reflected c++ class
         self.cpp_analyzer = _correlator.Correlator(hoomd.context.current.system_definition, filename, quantity_list, period, eval_period)
         self.cpp_analyzer.setLoggedQuantities(quantity_list)
-        self.setupAnalyzer(period)
+        self.setupAnalyzer(period, phase)
 
         # add the correlator to the list of loggers
         hoomd.context.current.loggers.append(self)
@@ -73,8 +73,8 @@ class correlate(hoomd.analyze._analyzer):
         hoomd.context.current.loggers.append(self)
         hoomd.context.msg.notice(1, "correlator is enabled \n")
 
-    def evaluate(self, eval_period):
-        hoomd.util.print_status_line()
+#    def evaluate(self, eval_period):
+#        hoomd.util.print_status_line()
 
 
 
