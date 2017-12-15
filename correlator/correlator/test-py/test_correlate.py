@@ -9,7 +9,7 @@ import os;
 import logging
 import errno
 
-logging.basicConfig(level=logging.DEBUG) # uncomment this for debug mode
+# logging.basicConfig(level=logging.DEBUG) # uncomment this for debug mode
 logger = logging.getLogger(__name__)
 DISABLE_REMOVE = logger.isEnabledFor(logging.DEBUG)
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'test-py')
@@ -50,6 +50,7 @@ class TestMain(unittest.TestCase):
           corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES)
           run(100)
           corr.evaluate()
+          self.assertTrue(os.path.isfile(FILENAME))
         finally:
             silent_remove(FILENAME, disable=DISABLE_REMOVE)
 
