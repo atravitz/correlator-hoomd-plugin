@@ -1,13 +1,6 @@
-from hoomd import *
-from hoomd import md
-from hoomd import deprecated
-from hoomd import correlator
-import math as m
-import numpy as np
-import sys
-context.initialize('--mode=cpu')
 
 def fcc():
+    context.initialize('--mode=cpu')
     ############################## Define Variables ###############################
     sigma_cc = 2.0
     epsilon_cc = 2.0
@@ -169,13 +162,4 @@ def fcc():
     # logger = analyze.log(filename = 'stress_xy.log', quantities = ['stress_xy'], period = 10, overwrite = True)
     # logger.register_callback('stress_xy', stressxy)
 
-    corr = correlator.correlate.correlate(filename="corr.log", quantities=['pressure_xy'], period=10, phase=0)
-
-
-    #dump to make job restartable
-    #dump.gsd(filename="restart.gsd", group=group.all(), truncate=True, period=10000, phase=0)
-
-    ### dump files for VMD ###
-    #dcd = dump.dcd(filename="dump.dcd", overwrite = True, period=100)
-    #xml = deprecated.dump.xml(group = group.all(), filename= 'init.xml', all = True)
-
+    corr = correlator.correlate.autocorrelate(filename="corr.log", quantities=['pressure_xy'], period=10)
