@@ -23,9 +23,23 @@ OUTFILES_VALUES = ['outputtest.txt', 'inputtest.txt', 'pressure_xy.log', 'corr.l
 
 
 class TestMain(unittest.TestCase):
+    def silent_remove(filename, disable=False):
+        """
+        Removes the target file name, catching and ignoring errors that indicate that the
+        file does not exist.
+
+        @param filename: The file to remove.
+        @param disable: boolean to flag if want to disable removal
+        """
+        if not disable:
+            try:
+                os.remove(filename)
+            except OSError as e:
+                if e.errno != errno.ENOENT:
+                    raise
     def testOutput(self):
         try:
-            silent_remove(FILENAME)
+            TestMain.silent_remove(FILENAME)
             sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
             group_all = group.all()
             all = group_all
@@ -42,7 +56,7 @@ class TestMain(unittest.TestCase):
             corr.evaluate()
             self.assertTrue(os.path.isfile(FILENAME))
         finally:
-            silent_remove(FILENAME, disable=DISABLE_REMOVE)
+            TestMain.silent_remove(FILENAME, disable=DISABLE_REMOVE)
 
     def testValues(self):
         try:
@@ -64,24 +78,8 @@ class TestMain(unittest.TestCase):
 
         finally:
             for OUT in OUTFILES_VALUES:
-                silent_remove(OUT, disable=DISABLE_REMOVE)
+                TestMain.silent_remove(OUT, disable=DISABLE_REMOVE)
 
 
 if __name__ == '__main__':
     unittest.main(argv=['test_correlate.py', '-v'])
-
-
-def silent_remove(filename, disable=False):
-    """
-    Removes the target file name, catching and ignoring errors that indicate that the
-    file does not exist.
-
-    @param filename: The file to remove.
-    @param disable: boolean to flag if want to disable removal
-    """
-    if not disable:
-        try:
-            os.remove(filename)
-        except OSError as e:
-            if e.errno != errno.ENOENT:
-                raise
