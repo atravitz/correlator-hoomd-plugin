@@ -15,6 +15,18 @@ git clone the bitbucket and add a symlink to your hoomd build
 
 Correlator is a HOOMD plugin, as such, users should have a basic understanding of creating and running HOOMD scripts. 
 
+    class hoomd.correlator.correlate.autocorrelate(quantities, 
+                filename="corr.log", period=1, eval_period=0)
+Autocorrelates a number of quantities
+
+Parameters:
+* filename(str) - File to write autocorrelation values to
+* quantities(list) - List of quantities to autocorrelate
+* period(int) - Data is correlated every period time steps
+* eval_period(int) - Autocorrelation data is written every eval_period time steps
+
+Quantities that can be autocorrelated are the same as those that can be [logged](http://hoomd-blue.readthedocs.io/en/stable/module-hoomd-analyze.html)
+
 A quick example:
 
 ```python
