@@ -25,6 +25,8 @@ Parameters:
 * period(int) - Data is correlated every period time steps
 * eval_period(int) - Autocorrelation data is written every eval_period time steps
 
+TODO: add information about .evaluate, .enable, .disable, and .updatequantities
+
 Quantities that can be autocorrelated are the same as those that can be [logged](http://hoomd-blue.readthedocs.io/en/stable/module-hoomd-analyze.html)
 
 A quick example:
