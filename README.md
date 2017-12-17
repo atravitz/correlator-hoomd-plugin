@@ -12,6 +12,7 @@ This subverts the need to frequently dump state points for post-processing, redu
 ## Documentation
 
 Correlator is a HOOMD plugin, as such, users should have a basic understanding of creating and running HOOMD scripts. 
+
 A quick example:
 
     hoomd.initialize()
@@ -22,5 +23,6 @@ A quick example:
 ## Acknowledgement
 
 TODO: make this section (more) official
+
 Created by Alyssa Travitz and Alexander Adams
 
