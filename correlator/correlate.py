@@ -78,9 +78,5 @@ class autocorrelate(hoomd.analyze._analyzer):
 
         self.cpp_analyzer.evaluate(hoomd.get_step())
 
-
-
-    #MAKE A FUNCTION THAT DUMPS THE DATA TO A FILE # FIX THIS
-        # base this on logPlainTXT
-
-    #ALLOW REGISTERING CALLBACKS
+    #TODO: Allow registering callbacks
+    #TODO: allow change in period
