@@ -10,9 +10,9 @@ To use this plugin, clone the repository into a build of HOOMD-blue, symlink it
 to the main HOOMD code and remake HOOMD.
 
     cd hoomd-blue
-    git clone https://xadams@bitbucket.org/xadams/autocorrelate.git
+    git clone https://xadams@bitbucket.org/xadams/correlator_plugin.git
     cd hoomd
-    ln -s ../autocorrelate/correlator/correlator .
+    ln -s ../correlator_plugin/correlator .
     cd ../build && make install
 
 ## Documentation
