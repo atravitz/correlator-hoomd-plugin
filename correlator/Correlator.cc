@@ -66,6 +66,7 @@ void Correlator::evaluate(unsigned int timestep)
       m_file.open(m_fname.c_str(), ios_base::out);
       }
 
+    cout << "We're actually getting to this step" << endl;
     m_is_initialized = true;
     m_corr.evaluate();
     m_file << "timstep: " << timestep << endl;

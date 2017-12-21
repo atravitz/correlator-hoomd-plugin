@@ -40,7 +40,7 @@ class TestMain(unittest.TestCase):
     def testOutput(self):
         try:
             TestMain.silent_remove(FILENAME)
-            sysdef = hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
+            hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
             group_all = group.all()
             all = group_all
             md.integrate.mode_standard(dt=0.01)
@@ -51,7 +51,10 @@ class TestMain(unittest.TestCase):
             # corr.enable()
             # corr.update_quantities() ## not sure of the purpose of this
 
-            corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES)
+            corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES, eval_period=5)
+            corr.disable()
+            corr.enable()
+            corr.update_quantities()
             run(100)
             corr.evaluate()
             self.assertTrue(os.path.isfile(FILENAME))
