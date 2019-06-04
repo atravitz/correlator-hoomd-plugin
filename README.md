@@ -6,20 +6,20 @@ The Correlator plugin for HOOMD-blue allows for on-the-fly autocorrelation of an
 This subverts the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
 
 ## Installation
-To use this plugin, clone the repository into a build of HOOMD-blue, symlink it 
+To use this plugin, clone the repository into a build of HOOMD-blue, symlink it
 to the main HOOMD code and remake HOOMD.
 
     cd hoomd-blue
-    git clone https://xadams@bitbucket.org/xadams/correlator_plugin.git
+    git clone https://github.com/atravitz/correlator-hoomd-plugin
     cd hoomd
     ln -s ../correlator_plugin/correlator .
     cd ../build && make install
 
 ## Documentation
 
-Correlator is a HOOMD plugin, as such, users should have a basic understanding of creating and running HOOMD scripts. 
+Correlator is a HOOMD plugin, as such, users should have a basic understanding of creating and running HOOMD scripts.
 
-    class hoomd.correlator.correlate.autocorrelate(quantities, 
+    class hoomd.correlator.correlate.autocorrelate(quantities,
                 filename="autocorrelate.log", period=1, eval_period=0)
 
 Parameters:
@@ -31,17 +31,17 @@ Parameters:
 Additional autocorrelate functions are:
 
     autocorrelate.disable()
-    
+
 Disables the correlator
 
     autocorrelate.enable()
-    
+
 Enables the correlator
 
     autocorrelate.evalute()
-    
+
 Writes out autocorrelation values when called
-    
+
 Quantities that can be autocorrelated are the same as those that can be [logged](http://hoomd-blue.readthedocs.io/en/stable/module-hoomd-analyze.html)
 
 A quick example:
@@ -58,7 +58,7 @@ all = group=all
 md.integrate.mode_standard(dt=0.01)
 md.integrate.langevin(group=all, kT=1, seed=234)
 
-corr = hoomd.correlator.correlate.autocorrelate(filename="corr.log", 
+corr = hoomd.correlator.correlate.autocorrelate(filename="corr.log",
                     quantities="pressure", period=1, eval_period=10)
 run(100)
 corr.evaluate()
