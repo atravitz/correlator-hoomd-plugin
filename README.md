@@ -1,19 +1,22 @@
-# Correlator - on-the-fly autocorrelation for HOOMD-blue
+# Correlator: an on-the-fly autocorrelation for HOOMD-blue
 
 ## About
 
 The Correlator plugin for HOOMD-blue allows for on-the-fly autocorrelation of any HOOMD quantity using the lihktman multiple tau autocorrelation algorithm.
-This subverts the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
+This eliminates the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
 
 ## Installation
-To use this plugin, clone the repository into a build of HOOMD-blue, symlink it
+To use this plugin, clone the repository into a HOOMD-blue repository , symlink it
 to the main HOOMD code and remake HOOMD.
 
     cd hoomd-blue
     git clone https://github.com/atravitz/correlator-hoomd-plugin
     cd hoomd
     ln -s ../correlator_plugin/correlator .
-    cd ../build && make install
+    cd ../build
+    cmake ../
+    make -j4
+    make install
 
 ## Documentation
 

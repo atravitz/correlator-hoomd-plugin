@@ -6,6 +6,8 @@
 #include <fstream>
 using namespace std;
 
+//TODO: make Correlator an analyzer
+//TODO: give Correlator an m_logger object
 Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int period, unsigned int eval_period)
   : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_eval(eval_period), m_corr(32,16,2), m_is_initialized(false)
   {
@@ -15,20 +17,18 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
     assert(m_corr);
 
     m_corr.initialize();
-
-
   }
 
-Correlator::~Correlator()
-{
-  cout << "Destructing Logger" << endl;
-}
+// Correlator::~Correlator()
+// {
+//   cout << "Destructing Logger" << endl;
+// }
 
 
 void Correlator::analyze(unsigned int timestep)
   {
-
     setLoggedQuantities(m_quantities);
+    //TODO: m_logger->getQuantity
     double value = this->getQuantity(m_quantities[0], timestep, false);
     m_corr.add(value);
     // ofstream m_file;
@@ -66,10 +66,9 @@ void Correlator::evaluate(unsigned int timestep)
       m_file.open(m_fname.c_str(), ios_base::out);
       }
 
-    cout << "We're actually getting to this step" << endl;
     m_is_initialized = true;
     m_corr.evaluate();
-    m_file << "timstep: " << timestep << endl;
+    m_file << "timestep: " << timestep << endl;
     for (unsigned int i=0;i<m_corr.npcorr;++i)
         m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
     m_file << ("\n");
@@ -104,9 +103,6 @@ void Correlator::evaluate(unsigned int timestep)
     //
     //   m_file << c.t[i] << " " << c.f[i] << endl;
       // m_file.close();
-
-
-
 //  }
 
 

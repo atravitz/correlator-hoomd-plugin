@@ -5,7 +5,6 @@
 
 #include <hoomd/Logger.h>
 #include <hoomd/Analyzer.h>
-#include <hoomd/SystemDefinition.h>
 #include "hoomd/Filesystem.h"
 #include "correlator_likh.h"
 
@@ -14,16 +13,19 @@
 #include <hoomd/extern/pybind/include/pybind11/pybind11.h>
 #endif
 
-class Correlator : public Logger
+class __attribute__((visibility("default"))) Correlator : public Logger
   {
   public:
     //! Constructor
     Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int period, unsigned int eval_period);
-    ~Correlator();
+
+    ~Correlator(){};
 
     virtual void analyze(unsigned int timestep); //std::string filename, std::vector<std::string> quantities,
 
     void evaluate(unsigned int timestep);
+
+
   protected:
     // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;

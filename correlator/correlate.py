@@ -7,13 +7,12 @@
 # First, we need to import the C++ module. It has the same name as this module (example_plugin) but with an underscore
 # in front
 
-# Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from
-# hoomd_script
+# Next, since we are extending an analyzer, we need to bring in the base class analyzer and some other parts from hoomd_script
 import hoomd
 from hoomd import _hoomd
 from hoomd.correlator import _correlator
-##
-#
+
+
 class autocorrelate(hoomd.analyze._analyzer):
     ## Initialize the correlator
     # \param filename - the name of the file containing output
@@ -56,9 +55,6 @@ class autocorrelate(hoomd.analyze._analyzer):
     def disable(self):
         hoomd.util.print_status_line()
 
-        hoomd.util.quiet_status()
-        hoomd.util.unquiet_status()
-
         hoomd.analyze._analyzer.disable(self)
         hoomd.context.current.loggers.remove(self)
         hoomd.context.msg.notice(1, "correlator is disabled \n");
@@ -66,17 +62,13 @@ class autocorrelate(hoomd.analyze._analyzer):
     def enable(self):
         hoomd.util.print_status_line()
 
-        hoomd.util.quiet_status()
-        hoomd.util.unquiet_status()
-
         hoomd.analyze._analyzer.enable(self)
         hoomd.context.current.loggers.append(self)
         hoomd.context.msg.notice(1, "correlator is enabled \n")
 
     def evaluate(self):
         hoomd.util.print_status_line()
-
         self.cpp_analyzer.evaluate(hoomd.get_step())
 
-    #TODO: Allow registering callbacks
-    #TODO: allow change in period
+    ## TODO: Allow registering callbacks
+    ## TODO: allow change in period
