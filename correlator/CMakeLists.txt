@@ -71,7 +71,7 @@ ENDMACRO(copy_file)
 
 set(files
     __init__.py
-    correlate.py
+    analyze.py
     )
 
 install(FILES ${files}

@@ -7,4 +7,4 @@
 
 # NOTE: adjust the import statement to match the name of the template
 # (here: example_plugin)
-from hoomd.correlator import correlate
+from hoomd.correlator import analyze
