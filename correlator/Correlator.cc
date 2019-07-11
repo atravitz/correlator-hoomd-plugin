@@ -8,8 +8,15 @@ using namespace std;
 
 //TODO: make Correlator an analyzer
 //TODO: give Correlator an m_logger object
-Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int period, unsigned int eval_period)
-  : Logger(sysdef), m_sysdef(sysdef), m_fname(filename), m_quantities(quantities), m_eval(eval_period), m_corr(32,16,2), m_is_initialized(false)
+Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef,
+                       std::shared_ptr<Logger> logger,
+                       std::string filename,
+                       std::vector<std::string> quantities,
+                       unsigned int period,
+                       unsigned int eval_period)
+  : Analyzer(sysdef), m_sysdef(sysdef), m_logger(logger),
+    m_fname(filename), m_quantities(quantities), m_eval(eval_period),
+    m_corr(32,16,2), m_is_initialized(false)
   {
     assert(m_sysdef);
     assert(m_fname);
@@ -19,17 +26,11 @@ Correlator::Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string fil
     m_corr.initialize();
   }
 
-// Correlator::~Correlator()
-// {
-//   cout << "Destructing Logger" << endl;
-// }
-
 
 void Correlator::analyze(unsigned int timestep)
   {
-    setLoggedQuantities(m_quantities);
-    //TODO: m_logger->getQuantity
-    double value = this->getQuantity(m_quantities[0], timestep, false);
+    m_logger->setLoggedQuantities(m_quantities);
+    double value = m_logger->getQuantity(m_quantities[0], timestep, false);
     m_corr.add(value);
     // ofstream m_file;
     // m_file.open(m_fname);
@@ -108,8 +109,8 @@ void Correlator::evaluate(unsigned int timestep)
 
 void export_Correlator(pybind11::module& m)
   {
-    pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "Correlator", pybind11::base<Logger>())
-      .def(pybind11::init< shared_ptr<SystemDefinition>, string , vector<std::string>, int, int  >())
+    pybind11::class_<Correlator, std::shared_ptr<Correlator>>(m, "Correlator", pybind11::base<Analyzer>())
+      .def(pybind11::init< shared_ptr<SystemDefinition>, shared_ptr<Logger>, string , vector<std::string>, int, int  >())
       .def("evaluate", &Correlator::evaluate)
       ;
   }
