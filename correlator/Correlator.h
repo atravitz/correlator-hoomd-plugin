@@ -4,6 +4,7 @@
 
 
 #include <hoomd/Logger.h>
+#include <hoomd/Analyzer.h>
 #include "hoomd/Filesystem.h"
 #include "correlator_likh.h"
 
@@ -12,18 +13,12 @@
 #include <hoomd/extern/pybind/include/pybind11/pybind11.h>
 #endif
 
-class __attribute__((visibility("default"))) Correlator : public Analyzer
+class __attribute__((visibility("default"))) Correlator : public Logger
   {
   public:
     //! Constructor
-    Correlator(std::shared_ptr<SystemDefinition> sysdef,
-               std::shared_ptr<Logger> logger,
-               std::string filename,
-               std::vector<std::string> quantities,
-               unsigned int period,
-               unsigned int eval_period);
+    Correlator(std::shared_ptr<SystemDefinition> sysdef, std::string filename, std::vector<std::string> quantities, unsigned int period, unsigned int eval_period);
 
-    //! Destructor
     ~Correlator(){};
 
     virtual void analyze(unsigned int timestep); //std::string filename, std::vector<std::string> quantities,
@@ -32,15 +27,13 @@ class __attribute__((visibility("default"))) Correlator : public Analyzer
 
 
   protected:
+    // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;
-    const std::shared_ptr<Logger> m_logger;
     const std::vector<std::string> m_quantity;
     const std::string m_fname;
     const std::vector<std::string> m_quantities;
     const unsigned int m_eval;
-
     Correlator_Likh m_corr;
-
     //The following are logging variables
     std::ofstream m_file;
     bool m_is_initialized;
