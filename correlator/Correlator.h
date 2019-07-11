@@ -25,7 +25,6 @@ class __attribute__((visibility("default"))) Correlator : public Logger
 
     void evaluate(unsigned int timestep);
 
-
   protected:
     // const std::shared_ptr<Logger> Logger;
     const std::shared_ptr<SystemDefinition> m_sysdef;
@@ -38,6 +37,7 @@ class __attribute__((visibility("default"))) Correlator : public Logger
     std::ofstream m_file;
     bool m_is_initialized;
   };
+
 //! Export the Correlator class to python
 void export_Correlator(pybind11::module& m);
 
