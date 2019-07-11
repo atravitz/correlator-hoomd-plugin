@@ -25,39 +25,14 @@ void Correlator::analyze(unsigned int timestep)
     //TODO: m_logger->getQuantity
     double value = this->getQuantity(m_quantities[0], timestep, false);
     m_corr.add(value);
-    // ofstream m_file;
-    // m_file.open(m_fname);
-    // m_file << logged_quantity;
-
-    if (m_eval==0)
-        return;
-
-    if (! m_is_initialized)
-        {
-        m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
-        m_file.open(m_fname.c_str(), ios_base::out);
-        }
-
-    m_is_initialized = true;
-    m_corr.evaluate();
-    m_file << "timestep: " << timestep;
-    m_file << ("\n");
-    for (unsigned int i=0;i<m_corr.npcorr;++i)
-        m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
-    m_file << ("\n");
-    m_file.flush();
-
   }
 
 void Correlator::evaluate(unsigned int timestep)
     {
-    if (! m_is_initialized)
-      {
-      m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
-      m_file.open(m_fname.c_str(), ios_base::out);
-      }
 
-    m_is_initialized = true;
+    m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in file \"" << m_fname << "\"" << endl;
+    m_file.open(m_fname.c_str(), ios_base::out);
+
     m_corr.evaluate();
     m_file << "timestep: " << timestep << endl;
     for (unsigned int i=0;i<m_corr.npcorr;++i)

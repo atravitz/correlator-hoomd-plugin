@@ -57,6 +57,7 @@ class autocorrelate(hoomd.analyze._analyzer):
         #re-register all computes and updaters
         hoomd.context.current.system.registerLogger(self.cpp_analyzer)
 
+    # \brief disables the analyzer
     def disable(self):
         hoomd.util.print_status_line()
 
@@ -64,6 +65,7 @@ class autocorrelate(hoomd.analyze._analyzer):
         hoomd.context.current.loggers.remove(self)
         hoomd.context.msg.notice(1, "correlator is disabled \n");
 
+    # \brief Re-enables the analyzer
     def enable(self):
         hoomd.util.print_status_line()
 
@@ -71,6 +73,7 @@ class autocorrelate(hoomd.analyze._analyzer):
         hoomd.context.current.loggers.append(self)
         hoomd.context.msg.notice(1, "correlator is enabled \n")
 
+    # \brief writes output to file
     def evaluate(self):
         hoomd.util.print_status_line()
         self.cpp_analyzer.evaluate(hoomd.get_step())

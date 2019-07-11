@@ -33,6 +33,7 @@ class __attribute__((visibility("default"))) Correlator : public Logger
     const std::vector<std::string> m_quantities;
     const unsigned int m_eval;
     Correlator_Likh m_corr;
+
     //The following are logging variables
     std::ofstream m_file;
     bool m_is_initialized;
