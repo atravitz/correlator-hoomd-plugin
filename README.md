@@ -1,4 +1,4 @@
-# Correlator: an on-the-fly autocorrelation for HOOMD-blue
+# Correlator: On-the-fly autocorrelation for HOOMD-blue
 
 ## About
 
