@@ -1,6 +1,6 @@
 /// Definition of correlator classes
-#ifndef __correlator_h
-#define __correlator_h
+#ifndef _CORRELATOR_H__
+#define _CORRELATOR_H__
 
 #include <stdio.h>
 
@@ -54,13 +54,13 @@ class Correlator_Likh {
 
   /** Constructor */
   Correlator_Likh() { numcorrelators = 0; };
-  Correlator_Likh(const unsigned int numcorrin, const unsigned int pin,
-                  const unsigned int min);
+  Correlator_Likh(const unsigned int numcorrin, const unsigned int p_in,
+                  const unsigned int m_in);
   ~Correlator_Likh();
 
   /** Set size of correlator */
-  void setsize(const unsigned int numcorrin = 32, const unsigned int pin = 16,
-               const unsigned int min = 2);
+  void setsize(const unsigned int numcorrin = 32, const unsigned int p_in = 16,
+               const unsigned int m_in = 2);
 
   /** Add a scalar to the correlator number k */
   void add(const double w, const unsigned int k = 0);

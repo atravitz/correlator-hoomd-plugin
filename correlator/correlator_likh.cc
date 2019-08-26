@@ -8,9 +8,9 @@ using namespace std;
 // Correlator class
 /////////////////////////////////////////
 Correlator_Likh::Correlator_Likh(const unsigned int numcorrin,
-                                 const unsigned int pin,
-                                 const unsigned int min) {
-  setsize(numcorrin, pin, min);
+                                 const unsigned int p_in,
+                                 const unsigned int m_in) {
+  setsize(numcorrin, p_in, m_in);
 }
 
 Correlator_Likh::~Correlator_Likh() {
@@ -28,11 +28,11 @@ Correlator_Likh::~Correlator_Likh() {
 }
 
 void Correlator_Likh::setsize(const unsigned int numcorrin,
-                              const unsigned int pin, const unsigned int min) {
+                              const unsigned int p_in, const unsigned int m_in) {
   numcorrelators = numcorrin;
-  p = pin;
-  m = min;
-  dmin = p / m;
+  p = p_in;
+  m = m_in;
+  dm_in = p / m;
 
   length = numcorrelators * p;
 
@@ -111,8 +111,8 @@ void Correlator_Likh::add(const double w, const unsigned int k) {
       if (ind2 < 0) ind2 += p;
     }
   } else {
-    int ind2 = ind1 - dmin;
-    for (unsigned int j = dmin; j < p; ++j) {
+    int ind2 = ind1 - dm_in;
+    for (unsigned int j = dm_in; j < p; ++j) {
       if (ind2 < 0) ind2 += p;
       if (shift[k][ind2] > -1e10) {
         correlation[k][j] += shift[k][ind1] * shift[k][ind2];
@@ -143,7 +143,7 @@ void Correlator_Likh::evaluate(const bool norm) {
 
   // Subsequent correlators
   for (int k = 1; k < kmax; ++k) {
-    for (int i = dmin; i < p; ++i) {
+    for (int i = dm_in; i < p; ++i) {
       if (ncorrelation[k][i] > 0) {
         t[im] = i * pow((double)m, k);
         f[im] = correlation[k][i] / ncorrelation[k][i] - aux;
