@@ -1,12 +1,12 @@
-# Correlator - on-the-fly autocorrelation for HOOMD-blue
+# On-the-fly autocorrelation for HOOMD-blue
 
 ## About
 
-The Correlator plugin for HOOMD-blue allows for on-the-fly autocorrelation of any HOOMD quantity using the lihktman multiple tau autocorrelation algorithm.
-This subverts the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
+The Correlator plug-in for HOOMD-blue provides on-the-fly time autocorrelation of any HOOMD quantity using the [Likhtman multiple tau autocorrelation algorithm](https://aip.scitation.org/doi/10.1063/1.3491098).
+This avoids the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
 
 ## Installation
-To use this plugin, clone the repository into a build of HOOMD-blue, symlink it
+To use this plug-in, clone the repository into a build of HOOMD-blue, symlink it
 to the main HOOMD code and remake HOOMD.
 
     cd hoomd-blue
@@ -17,7 +17,7 @@ to the main HOOMD code and remake HOOMD.
 
 ## Documentation
 
-Correlator is a HOOMD plugin, as such, users should have a basic understanding of creating and running HOOMD scripts.
+Correlator is a HOOMD plug-in, as such, users should have a basic understanding of creating and running HOOMD scripts.
 
     class hoomd.correlator.correlate.autocorrelate(quantities,
                 filename="autocorrelate.log", period=1, eval_period=0)
