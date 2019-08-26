@@ -1,11 +1,11 @@
-import hoomd;
+import hoomd
 from hoomd import *
 from hoomd import md
 from hoomd import correlator
 
-hoomd.context.initialize();
-import unittest;
-import os;
+hoomd.context.initialize()
+import unittest
+import os
 import logging
 import errno
 import subprocess
@@ -15,11 +15,11 @@ from fcc import fcc
 # logging.basicConfig(level=logging.DEBUG) # uncomment this for debug mode
 logger = logging.getLogger(__name__)
 DISABLE_REMOVE = logger.isEnabledFor(logging.DEBUG)
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'test-py')
+DATA_DIR = os.path.join(os.path.dirname(__file__), "test-py")
 
-QUANTITIES = ['pressure']
-FILENAME = 'outfile'
-OUTFILES_VALUES = ['outputtest.txt', 'inputtest.txt', 'pressure_xy.log', 'corr.log']
+QUANTITIES = ["pressure"]
+FILENAME = "outfile"
+OUTFILES_VALUES = ["outputtest.txt", "inputtest.txt", "pressure_xy.log", "corr.log"]
 
 
 class TestMain(unittest.TestCase):
@@ -37,21 +37,24 @@ class TestMain(unittest.TestCase):
             except OSError as e:
                 if e.errno != errno.ENOENT:
                     raise
+
     def testOutput(self):
         try:
             TestMain.silent_remove(FILENAME)
-            hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2]);
+            hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2])
             group_all = group.all()
             all = group_all
             md.integrate.mode_standard(dt=0.01)
             md.integrate.langevin(group=all, kT=1, seed=234)
 
-            #Additional correlator functions
+            # Additional correlator functions
             # corr.disable()
             # corr.enable()
             # corr.update_quantities() ## not sure of the purpose of this
 
-            corr = hoomd.correlator.correlate.autocorrelate(filename=FILENAME, quantities=QUANTITIES, eval_period=5)
+            corr = hoomd.correlator.correlate.autocorrelate(
+                filename=FILENAME, quantities=QUANTITIES, eval_period=5
+            )
             corr.disable()
             corr.enable()
             corr.update_quantities()
@@ -66,14 +69,23 @@ class TestMain(unittest.TestCase):
             fcc()
             path = os.getcwd()
             data = pd.read_table("pressure_xy.log", header=0, usecols=[1])
-            data.pressure_xy.to_csv(str(path + '/inputtest.txt'), index=False)
+            data.pressure_xy.to_csv(str(path + "/inputtest.txt"), index=False)
 
-            subprocess.call([path + '/Correlator_IO', 'inputtest.txt', 'outputtest.txt'])
+            subprocess.call(
+                [path + "/Correlator_IO", "inputtest.txt", "outputtest.txt"]
+            )
 
             comparedata = pd.DataFrame()
-            comparedata['postprocess'] = pd.read_table('outputtest.txt', delim_whitespace=True, usecols=[1],
-                                                       header=None, names=['output'])
-            comparedata['onthefly'] = pd.read_table('corr.log', skiprows=0, delim_whitespace=True, usecols=[1])
+            comparedata["postprocess"] = pd.read_table(
+                "outputtest.txt",
+                delim_whitespace=True,
+                usecols=[1],
+                header=None,
+                names=["output"],
+            )
+            comparedata["onthefly"] = pd.read_table(
+                "corr.log", skiprows=0, delim_whitespace=True, usecols=[1]
+            )
 
             for n, val in comparedata.postprocess.iteritems():
                 diff = val - comparedata.onthefly[n]
@@ -84,5 +96,5 @@ class TestMain(unittest.TestCase):
                 TestMain.silent_remove(OUT, disable=DISABLE_REMOVE)
 
 
-if __name__ == '__main__':
-    unittest.main(argv=['test_correlate.py', '-v'])
+if __name__ == "__main__":
+    unittest.main(argv=["test_correlate.py", "-v"])
