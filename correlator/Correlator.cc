@@ -64,7 +64,6 @@ void Correlator::evaluate(unsigned int timestep) {
     m_file.open(m_fname.c_str(), ios_base::out);
   }
 
-  cout << "We're actually getting to this step" << endl;
   m_is_initialized = true;
   m_corr.evaluate();
   m_file << "timstep: " << timestep << endl;
@@ -73,37 +72,6 @@ void Correlator::evaluate(unsigned int timestep) {
   m_file << ("\n");
   m_file.flush();
 }
-
-// void Correlator::logging(unsigned int timestep)
-//   {
-//     if (! m_is_initialized)
-//         {
-//         m_exec_conf->msg->notice(3) << "correlate.log: Creating new log in
-//         file \"" << m_fname << "\"" << endl; m_file.open(m_fname.c_str(),
-//         ios_base::out);
-//         }
-//
-//     m_is_initialized = true;
-//    m_corr->add(8);
-//    m_file.open(m_fname);
-//   m_file << value;
-
-// m_corr->add(value);
-//
-// ofstream m_file;
-// if (!m_file.is_open())
-//   m_file.open(m_fname);
-//
-// if (timestep == 1000)
-//   cout <<timestep << endl;
-//   m_corr->evaluate();
-//   cout<< m_corr->npcorr << endl;
-// for (unsigned int i=0; i<c.npcorr;++i)
-//
-//   m_file << c.t[i] << " " << c.f[i] << endl;
-// m_file.close();
-
-//  }
 
 void export_Correlator(pybind11::module& m) {
   pybind11::class_<Correlator, std::shared_ptr<Correlator>>(

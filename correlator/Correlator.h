@@ -27,14 +27,14 @@ class Correlator : public Logger {
   void evaluate(unsigned int timestep);
 
  protected:
-  // const std::shared_ptr<Logger> Logger;
   const std::shared_ptr<SystemDefinition> m_sysdef;
   const std::vector<std::string> m_quantity;
   const std::string m_fname;
   const std::vector<std::string> m_quantities;
   const unsigned int m_eval;
   Correlator_Likh m_corr;
-  // The following are logging variables
+
+  // Define logging variables
   std::ofstream m_file;
   bool m_is_initialized;
 };

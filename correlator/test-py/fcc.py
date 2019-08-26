@@ -9,7 +9,6 @@ import sys
 def fcc():
 
     context.initialize("--mode=cpu")
-    ############################## Define Variables ###############################
     sigma_cc = 2.0
     epsilon_cc = 2.0
     sigma_pc = 1.0
@@ -33,7 +32,6 @@ def fcc():
     N_Kuhn = 60  # number of Kuhn steps per polymer chain
     Hd = 3 * T / (N_Kuhn)  # spring constant
 
-    ############################### Define Functions ###############################
     ### find distance between two particles, accounting for periodic box conditions ###
     def dist(bead1, bead2):
         dist = [0, 0, 0]
@@ -70,7 +68,7 @@ def fcc():
                 y[i] += box_length
         return x, y
 
-    ############################## Initialize System ###############################
+    ## Initialize System
     system = init.create_lattice(lattice.fcc(a, type_name="colloid"), 2)
     snapshot = system.take_snapshot(bonds=True)
     N_colloid = len(snapshot.particles.diameter)
@@ -123,7 +121,7 @@ def fcc():
         snapshot.particles.position[i + N_colloid * 11] = [neg[0], center[1], pos[2]]
         snapshot.particles.position[i + N_colloid * 12] = [neg[0], center[1], neg[2]]
 
-    ## define bonds ##
+    ## define bonds
     k = 0
     for i in np.arange(N_colloid, N_tot):
         for j in np.arange(i + 1, N_tot):
@@ -142,9 +140,8 @@ def fcc():
     )  ##define bond index for callback function. Do not have to access snapshot everytime function called
     system.restore_snapshot(snapshot)
 
-    ########################### Add Potentials and Bonds ###########################
+    ## Add Potentials and Bonds
 
-    ### shifted lennard jones ###
     # polymer - colloid associative potential
     def slj_pc(r, rmin, rmax, delta, epsilon, sigma):
         V = 4 * epsilon * ((sigma / (r - delta)) ** 12 - (sigma / (r - delta)) ** 6)
@@ -156,7 +153,7 @@ def fcc():
         )
         return (V, F)
 
-    ### colloid - colloid hard sphere, purely repulsive potential ###
+    ## colloid - colloid hard sphere, purely repulsive potential
     def slj_cc(r, rmin, rmax, delta, epsilon, sigma):
         V = (
             4
@@ -171,11 +168,6 @@ def fcc():
         )
         return (V, F)
 
-    #### FENE Bonds ###
-    # fene = md.bond.fene()
-    # fene.bond_coeff.set('polymerbond', k=Hd, r0=N_Kuhn, epsilon = 0.0, sigma = 1.0)
-
-    ##Harmonic Bond##
     harmonic = md.bond.harmonic()
     harmonic.bond_coeff.set("polymerbond", k=Hd, r0=0)
 
@@ -206,9 +198,8 @@ def fcc():
         coeff=dict(delta=R, epsilon=0.0, sigma=1.0),
     )
 
-    ############################### Define Integrator ##############################
+    # Define integrator
 
-    # integrate_all= md.integrate.brownian(group=group.all(), kT=T, seed=2094)
     integrate_all = md.integrate.langevin(group=group.all(), kT=T, seed=204)
     integrate_all.set_gamma("colloid", 100.0)
     integrate_all.set_gamma_r("colloid", 100.0)
@@ -223,19 +214,9 @@ def fcc():
         period=10,
         overwrite=True,
     )
-    # logger = analyze.log(filename = 'stress_xy.log', quantities = ['stress_xy'], period = 10, overwrite = True)
-    # logger.register_callback('stress_xy', stressxy)
 
     corr = correlator.correlate.autocorrelate(
         filename="corr.log", quantities=["pressure_xy"], period=10
     )
     run(eql_steps)
     corr.evaluate()
-
-    # dump to make job restartable
-    # dump.gsd(filename="restart.gsd", group=group.all(), truncate=True, period=10000, phase=0)
-
-    ### dump files for VMD ###
-    # dcd = dump.dcd(filename="dump.dcd", overwrite = True, period=100)
-    # xml = deprecated.dump.xml(group = group.all(), filename= 'init.xml', all = True)
-
