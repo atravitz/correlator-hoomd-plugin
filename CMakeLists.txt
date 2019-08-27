@@ -2,7 +2,7 @@ project(correlator)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_MODULE_PATH})
-SET(CMAKE_INSTALL_RPATH "$ORIGIN/..:$ORIGIN")
+SET(CMAKE_INSTALL_RPATH "$ORIGIN/..:$ORIGIN") /
 
 include(FindHOOMD.cmake)
 
@@ -22,3 +22,7 @@ message(STATUS "Install plugin to: " ${PYTHON_MODULE_BASE_DIR})
 
 # add subdirectories
 add_subdirectory(${PROJECT_NAME})
+
+if (BUILD_TESTING)
+    add_subdirectory(test-py)
+endif

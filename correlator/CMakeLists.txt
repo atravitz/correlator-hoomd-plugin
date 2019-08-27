@@ -1,4 +1,4 @@
-# Maintainer: 
+# Maintainer: atravitz
 
 set(COMPONENT_NAME correlator)
 
@@ -15,10 +15,17 @@ if (ENABLE_CUDA)
 CUDA_COMPILE(_CUDA_GENERATED_FILES ${_${COMPONENT_NAME}_cu_sources} OPTIONS ${CUDA_ADDITIONAL_OPTIONS} SHARED)
 endif (ENABLE_CUDA)
 
-add_library (_${COMPONENT_NAME} SHARED ${_${COMPONENT_NAME}_sources} ${_CUDA_GENERATED_FILES})
+pybind11_add_module (_${COMPONENT_NAME} SHARED ${_${COMPONENT_NAME}_sources} ${_CUDA_GENERATED_FILES} NO_EXTRAS)
+if (APPLE)
+set_target_properties(_${COMPONENT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/..;@loader_path")
+else()
+set_target_properties(_${COMPONENT_NAME} PROPERTIES INSTALL_RPATH "\$ORIGIN/..;\$ORIGIN")
+endif()
+
+# add_library (_${COMPONENT_NAME} SHARED ${_${COMPONENT_NAME}_sources} ${_CUDA_GENERATED_FILES})
 
 # link the library to its dependencies
-target_link_libraries(_${COMPONENT_NAME} ${HOOMD_LIBRARIES})
+target_link_libraries(_${COMPONENT_NAME} PRIVATE ${HOOMD_LIBRARIES})
 
 # if we are compiling with MPI support built in, set appropriate
 # compiler/linker flags
@@ -31,15 +38,17 @@ if (ENABLE_MPI)
    endif(MPI_LINK_FLAGS)
 endif(ENABLE_MPI)
 
-##################################
-# change the name of the library to be a valid python module
+################################## Change the name of the library to be a valid python module
 # tweak the properties of the output to make a functional python module
 set_target_properties(_${COMPONENT_NAME} PROPERTIES PREFIX "" OUTPUT_NAME "_${COMPONENT_NAME}")
 
 # .dylib is not recognized as a python module by python on Mac OS X
-if(APPLE)
+# if(APPLE)
     set_target_properties(_${COMPONENT_NAME} PROPERTIES SUFFIX ".so")
-endif(APPLE)
+# endif(APPLE)
+
+#################################
+
 fix_cudart_rpath(_${COMPONENT_NAME})
 
 # install the library
@@ -52,6 +61,7 @@ install(TARGETS _${COMPONENT_NAME}
 MACRO(copy_file file)
     add_custom_command (
         OUTPUT ${file}
+        DEPENDS ${file}
         POST_BUILD
         COMMAND    ${CMAKE_COMMAND}
         ARGS       -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/${file}
@@ -61,7 +71,7 @@ ENDMACRO(copy_file)
 
 set(files
     __init__.py
-    correlate.py
+    analyze.py
     )
 
 install(FILES ${files}
@@ -74,6 +84,3 @@ endforeach()
 
 add_custom_target(copy_${COMPONENT_NAME} ALL DEPENDS ${files})
 
-if (BUILD_TESTING)
-    add_subdirectory(test-py)
-endif()

@@ -13,7 +13,10 @@ to the main HOOMD code and remake HOOMD.
     git clone https://github.com/atravitz/correlator-hoomd-plugin
     cd hoomd
     ln -s ../correlator_plugin/correlator .
-    cd ../build && make install
+    cd ../build
+    cmake ../
+    make -j4
+    make install
 
 ## Documentation
 
