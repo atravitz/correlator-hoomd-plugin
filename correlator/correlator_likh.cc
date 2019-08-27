@@ -32,7 +32,7 @@ void Correlator_Likh::setsize(const unsigned int numcorrin,
   numcorrelators = numcorrin;
   p = p_in;
   m = m_in;
-  dm_in = p / m;
+  d_min = p / m;
 
   length = numcorrelators * p;
 
@@ -111,8 +111,8 @@ void Correlator_Likh::add(const double w, const unsigned int k) {
       if (ind2 < 0) ind2 += p;
     }
   } else {
-    int ind2 = ind1 - dm_in;
-    for (unsigned int j = dm_in; j < p; ++j) {
+    int ind2 = ind1 - d_min;
+    for (unsigned int j = d_min; j < p; ++j) {
       if (ind2 < 0) ind2 += p;
       if (shift[k][ind2] > -1e10) {
         correlation[k][j] += shift[k][ind1] * shift[k][ind2];
@@ -143,7 +143,7 @@ void Correlator_Likh::evaluate(const bool norm) {
 
   // Subsequent correlators
   for (int k = 1; k < kmax; ++k) {
-    for (int i = dm_in; i < p; ++i) {
+    for (int i = d_min; i < p; ++i) {
       if (ncorrelation[k][i] > 0) {
         t[im] = i * pow((double)m, k);
         f[im] = correlation[k][i] / ncorrelation[k][i] - aux;

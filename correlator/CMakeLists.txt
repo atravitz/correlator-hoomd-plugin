@@ -6,7 +6,7 @@ set(_${COMPONENT_NAME}_sources
     module.cc
     Correlator.cc
     correlator_likh.cc
-	)
+    )
 
 # Need to define NO_IMPORT_ARRAY in every file but module.cc
 set_source_files_properties(${_${COMPONENT_NAME}_sources} ${_${COMPONENT_NAME}_cu_sources} PROPERTIES COMPILE_DEFINITIONS NO_IMPORT_ARRAY)

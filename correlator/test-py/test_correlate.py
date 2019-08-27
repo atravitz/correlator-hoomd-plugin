@@ -50,7 +50,6 @@ class TestMain(unittest.TestCase):
             # Additional correlator functions
             # corr.disable()
             # corr.enable()
-            # corr.update_quantities() ## not sure of the purpose of this
 
             corr = hoomd.correlator.correlate.autocorrelate(
                 filename=FILENAME, quantities=QUANTITIES, eval_period=5
