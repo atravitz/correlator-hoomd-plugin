@@ -57,7 +57,7 @@ hoomd.context.initialize()
 
 hoomd.init.create_lattice(unitcell=hoomd.lattice.sq(a=2.0), n=[1, 2])
 group_all = group.all()
-all = group=all
+all = group_all
 md.integrate.mode_standard(dt=0.01)
 md.integrate.langevin(group=all, kT=1, seed=234)
 
