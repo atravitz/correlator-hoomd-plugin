@@ -1,3 +1,4 @@
 correlator/correlator/test-py/outfile
+*.log*
 *.vscode*
 .idea*

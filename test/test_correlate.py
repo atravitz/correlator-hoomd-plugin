@@ -56,32 +56,32 @@ class test_correlate(unittest.TestCase):
         corr.evaluate()
         self.assertTrue(os.path.isfile(FILENAME))
 
-    def test_values(self):
-        all = group.all()
-        md.integrate.mode_standard(dt=0.01)
-        md.integrate.langevin(group=all, kT=1, seed=0)
-        corr = hoomd.correlator.analyze.autocorrelate(
-            filename=FILENAME, quantities=QUANTITIES, eval_period=1
-        )
+    # def test_values(self):
+    #     all = group.all()
+    #     md.integrate.mode_standard(dt=0.01)
+    #     md.integrate.langevin(group=all, kT=1, seed=0)
+    #     corr = hoomd.correlator.analyze.autocorrelate(
+    #         filename=FILENAME, quantities=QUANTITIES, eval_period=1
+    #     )
 
-        logger = analyze.log(
-            filename="pressure_xy.log",
-            quantities=["pressure_xy"],
-            period=1,
-            overwrite=True,
-        )
+    #     logger = analyze.log(
+    #         filename="pressure_xy.log",
+    #         quantities=["pressure_xy"],
+    #         period=1,
+    #         overwrite=True,
+    #     )
 
-        run(100)
+    #     run(100)
 
-        pressure_data = np.loadtxt("pressure_xy.log", skiprows=1, usecols=[1])
-        np.savetxt("pressure_data.txt", pressure_data)
-        subprocess.call(["./Correlator_IO", "pressure_data.txt", "corr_post_proc.txt"])
+    #     pressure_data = np.loadtxt("pressure_xy.log", skiprows=1, usecols=[1])
+    #     np.savetxt("pressure_data.txt", pressure_data)
+    #     subprocess.call(["./Correlator_IO", "pressure_data.txt", "corr_post_proc.txt"])
 
-        corr_post_proc = np.loadtxt('corr_post_proc.txt')
+    #     corr_post_proc = np.loadtxt('corr_post_proc.txt')
 
-        corr_otf = np.loadtxt('corr_otf_test.txt', skiprows=1)
+    #     corr_otf = np.loadtxt('corr_otf_test.txt', skiprows=1)
 
-        np.testing.assert_almost_equal(corr_post_proc[:-1], corr_otf, decimal=2)
+    #     np.testing.assert_almost_equal(corr_post_proc[:-1], corr_otf, decimal=2)
 
 
 if __name__ == "__main__":
