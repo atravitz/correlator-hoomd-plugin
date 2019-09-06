@@ -51,7 +51,7 @@ class TestMain(unittest.TestCase):
             # corr.disable()
             # corr.enable()
 
-            corr = hoomd.correlator.correlate.autocorrelate(
+            corr = hoomd.correlator.analyze.autocorrelate(
                 filename=FILENAME, quantities=QUANTITIES, eval_period=5
             )
             corr.disable()
