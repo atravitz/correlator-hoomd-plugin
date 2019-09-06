@@ -38,23 +38,23 @@ void Correlator::analyze(unsigned int timestep) {
   if (m_eval == 0) return;
 
   // brute force log every other timestep
-  if ((timestep) % (m_eval) == 0) {
-    if (!m_is_initialized) {
-      m_exec_conf->msg->notice(3)
-          << "correlate.log: Creating new log in file \"" << m_fname << "\""
-          << endl;
-      m_file.open(m_fname.c_str(), ios_base::out);
-    }
+  // if ((timestep) % (m_eval) == 0) {
+  //   if (!m_is_initialized) {
+  //     m_exec_conf->msg->notice(3)
+  //         << "correlate.log: Creating new log in file \"" << m_fname << "\""
+  //         << endl;
+  //     m_file.open(m_fname.c_str(), ios_base::out);
+  //   }
 
-    m_is_initialized = true;
-    m_corr.evaluate();
-    m_file << "timestep: " << timestep;
-    m_file << ("\n");
-    for (unsigned int i = 0; i < m_corr.npcorr; ++i)
-      m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
-    m_file << ("\n");
-    m_file.flush();
-  }
+  //   m_is_initialized = true;
+  //   m_corr.evaluate();
+  //   m_file << "timestep: " << timestep;
+  //   m_file << ("\n");
+  //   for (unsigned int i = 0; i < m_corr.npcorr; ++i)
+  //     m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
+  //   m_file << ("\n");
+  //   m_file.flush();
+  // }
 }
 
 void Correlator::evaluate(unsigned int timestep) {
@@ -66,9 +66,12 @@ void Correlator::evaluate(unsigned int timestep) {
 
   m_is_initialized = true;
   m_corr.evaluate();
-  m_file << "timstep: " << timestep << endl;
+
+  // record values
+  m_file << "correlator evaluated at timestep " << timestep << endl;
+  m_file << "timestep,corr" << timestep << endl;
   for (unsigned int i = 0; i < m_corr.npcorr; ++i)
-    m_file << m_corr.t[i] << " " << m_corr.f[i] << endl;
+    m_file << m_corr.t[i] << "," << m_corr.f[i] << endl;
   m_file << ("\n");
   m_file.flush();
 }
