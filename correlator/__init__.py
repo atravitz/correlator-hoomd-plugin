@@ -3,4 +3,4 @@
 
 # this file exists to mark this directory as a python module
 
-from hoomd.correlator import correlate
+from hoomd.correlator import analyze 
