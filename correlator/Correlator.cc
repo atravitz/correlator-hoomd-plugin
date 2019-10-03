@@ -69,7 +69,7 @@ void Correlator::evaluate(unsigned int timestep) {
 
   // record values
   m_file << "correlator evaluated at timestep " << timestep << endl;
-  m_file << "timestep,corr" << timestep << endl;
+  m_file << "timestep,corr" << endl;
   for (unsigned int i = 0; i < m_corr.npcorr; ++i)
     m_file << m_corr.t[i] << "," << m_corr.f[i] << endl;
   m_file << ("\n");

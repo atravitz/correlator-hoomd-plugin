@@ -18,9 +18,7 @@ class autocorrelate(hoomd.analyze._analyzer):
     # hoomd.correlator.correlate.correlate(filename='correlate.log', quantities=['potential_energy'], period=1)
     # \endcode
 
-    def __init__(
-        self, quantities, filename="autocorrelate.log", period=1, eval_period=0
-    ):
+    def __init__(self, quantities, filename="autocorrelate.log", period=1, eval_period=0):
         hoomd.util.print_status_line()
 
         # initialize base class
