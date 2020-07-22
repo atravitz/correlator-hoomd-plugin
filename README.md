@@ -26,10 +26,10 @@ Correlator is a HOOMD plug-in, as such, users should have a basic understanding 
                 filename="autocorrelate.log", period=1, eval_period=0)
 
 Parameters:
-* filename(str) - File to write autocorrelation values to
-* quantities(list) - List of quantities to autocorrelate
-* period(int) - Data is correlated every period time steps
-* eval_period(int) - Autocorrelation data is written every eval_period time steps
+* `filename : str` - File to write autocorrelation values to
+* `quantities : list` - List of quantities to autocorrelate
+* `period : int` - Data is correlated every period time steps
+* `eval_period : int` - Autocorrelation data is written every eval_period time steps
 
 Additional autocorrelate functions are:
 
@@ -61,8 +61,7 @@ all = group_all
 md.integrate.mode_standard(dt=0.01)
 md.integrate.langevin(group=all, kT=1, seed=234)
 
-corr = hoomd.correlator.correlate.autocorrelate(filename="corr.log",
-                    quantities="pressure", period=1, eval_period=10)
+corr = hoomd.correlator.analyze.autocorrelate(filename="corr.log", quantities="pressure", period=1, eval_period=10)
 run(100)
 corr.evaluate()
 ```
