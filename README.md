@@ -12,7 +12,7 @@ to the main HOOMD code and remake HOOMD.
     cd hoomd-blue
     git clone https://github.com/atravitz/correlator-hoomd-plugin
     cd hoomd
-    ln -s ../correlator_plugin/correlator .
+    ln -s ../correlator-hoomd-plugin/correlator .
     cd ../build
     cmake ../
     make -j4
