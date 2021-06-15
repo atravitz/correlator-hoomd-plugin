@@ -6,6 +6,8 @@ The Correlator plug-in for HOOMD-blue provides on-the-fly time autocorrelation o
 This avoids the need to frequently dump state points for post-processing, reducing memory requirements and improving overall performance.
 
 ## Installation
+
+Currently, this plug-in is only available for HOOMD v2.
 To use this plug-in, clone the repository into a build of HOOMD-blue, symlink it
 to the main HOOMD code and remake HOOMD.
 
